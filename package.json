@@ -1,0 +1,10 @@
+{
+    "name": "lingua",
+    "main": "resources/js/app.js",
+    "version": "1.0.0",
+    "dependencies": {
+        "alpinejs": "latest"
+    },
+    "author": "Alessandro Belli",
+    "license": "MIT"
+}

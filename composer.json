@@ -1,0 +1,75 @@
+{
+    "name": "alessandrobelli/lingua",
+    "description": "Translation Manager for Laravel, built with TALL stack.",
+    "keywords": [
+        "alessandrobelli",
+        "lingua"
+    ],
+    "homepage": "https://github.com/alessandrobelli/lingua",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alessandro Belli",
+            "email": "info@alessandrobelli.it",
+            "homepage": "https://alessandrobelli.it",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "illuminate/console": "^6.0|^7.0|^8.0",
+        "illuminate/http": "^6.0|^7.0|^8.0",
+        "illuminate/database": "^6.0|^7.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "ext-zip": "*",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "laravel/legacy-factories": "^1.0.4",
+        "livewire/livewire": "2.*",
+        "orchestra/testbench": "^5.2 || ^6.0",
+        "phpunit/phpunit": "^9.0",
+        "psalm/plugin-laravel": "^1.2",
+        "vimeo/psalm": "^3.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "alessandrobelli\\Lingua\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "alessandrobelli\\Lingua\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "alessandrobelli\\Lingua\\LinguaServiceProvider"
+            ],
+            "aliases": {
+                "Lingua": "alessandrobelli\\Lingua\\",
+                "confirm-delete-modal": "alessandrobelli\\Lingua\\Http\\Livewire\\ConfirmDeleteModal",
+                "csv-import": "alessandrobelli\\Lingua\\Http\\Livewire\\CsvImport",
+                "export-to-csv": "alessandrobelli\\Lingua\\Http\\Livewire\\ExportToCsv",
+                "manage-locales": "alessandrobelli\\Lingua\\Http\\Livewire\\manage-locales",
+                "scan-for-strings": "alessandrobelli\\Lingua\\Http\\Livewire\\ScanForStrings",
+                "toast-message-show": "alessandrobelli\\Lingua\\Http\\Livewire\\ToastMessageShow",
+                "translation-input": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationInput",
+                "translation-table": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationTable",
+                "translation-modal": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationModal"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
