@@ -8,7 +8,8 @@
             <li>Project/Label (optional)</li>
         </ol>
         <p>You will select the columns after you upload the file.</p>
-
+        <p class="bg-red-200 p-1 w-auto">The <span class="font-bold">language column</span> needs to be the "iso language name" in english, like "German" or "Italian".</p>
+        <p class="bg-red-200 p-1 w-auto">A wrong name will end up in an error, but don't worry, nothing will be imported!</p>
     </div>
     <div class="w-full my-2">
         <input type="file" wire:model="csv">
