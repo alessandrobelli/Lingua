@@ -52,8 +52,7 @@ class CsvImport extends Component
             $existingString = Translation::where('string', $string)->first();
             $translationLanguage = LinguaUtilities::array_multidimensional_search(config('lingua.locales-list'), 'isolanguagename', $language)[0]['locale'];
             $this->addLocaleIfNotExist($translationLanguage);
-            if (!$existingString)
-            {
+            if (! $existingString) {
                 // CHECK WHY MULTI WORDS ARE CONSIDERED NOT THE SAME
                 $existingString = Translation::create(['string' => $string, 'project' => $project]);
             }
@@ -77,11 +76,9 @@ class CsvImport extends Component
     private function addLocaleIfNotExist($translationLanguage)
     {
         $translationAndLocale = Translation::whereNotNull('locales->' . $translationLanguage)->first();
-        if (!$translationAndLocale)
-        {
+        if (! $translationAndLocale) {
             //  locale doesn't. add it to the whole translations.
-            foreach (Translation::all() as $translation)
-            {
+            foreach (Translation::all() as $translation) {
                 $json_array = $translation->locales;
                 $json_array[$translationLanguage] = "";
                 $translation->locales = $json_array;
