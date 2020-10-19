@@ -3,7 +3,10 @@
     "description": "Translation Manager for Laravel, built with TALL stack.",
     "keywords": [
         "alessandrobelli",
-        "lingua"
+        "lingua",
+        "Laravel",
+        "Livewire",
+        "translation manager"
     ],
     "homepage": "https://github.com/alessandrobelli/lingua",
     "license": "MIT",
