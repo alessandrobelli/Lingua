@@ -19,6 +19,11 @@ class LinguaController
         return view('lingua::import');
     }
 
+    public function conflicts()
+    {
+        return view('lingua::conflicts');
+    }
+
     public function download()
     {
         $translations = Translation::all();

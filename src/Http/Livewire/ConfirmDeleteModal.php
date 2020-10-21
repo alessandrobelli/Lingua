@@ -41,6 +41,9 @@ class ConfirmDeleteModal extends Component
             $this->emit('refreshTranslations');
             $this->emit('show-toast', 'All translations deleted', 'success');
             $this->isOpen = false;
+        } elseif ($this->entityToDelete === "merge translations") {
+            $this->emit('merge', $this->params[0], $this->params[1]);
+            $this->isOpen = false;
         }
     }
 
@@ -78,7 +81,6 @@ class ConfirmDeleteModal extends Component
     private function deleteLocaleFiles(): void
     {
         $resource_path = Storage::createLocalDriver(['root' => resource_path(), 'driver' => 'local']);
-
         if ($this->entityToDelete === "translations") {
             foreach (Translation::allLocales() as $locale) {
                 try {

@@ -5,6 +5,7 @@ namespace alessandrobelli\Lingua;
 use alessandrobelli\Lingua\Commands\ChangeLinguaUserProject;
 use alessandrobelli\Lingua\Http\Controllers\LinguaController;
 use alessandrobelli\Lingua\Http\Livewire\ConfirmDeleteModal;
+use alessandrobelli\Lingua\Http\Livewire\ConflictsDashboard;
 use alessandrobelli\Lingua\Http\Livewire\CsvImport;
 use alessandrobelli\Lingua\Http\Livewire\ExportToCsv;
 use alessandrobelli\Lingua\Http\Livewire\ManageLocales;
@@ -94,11 +95,15 @@ class LinguaServiceProvider extends ServiceProvider
         Route::macro('lingua', function (string $prefix) {
             Route::prefix($prefix)->group(function () {
                 Route::group(['middleware' => ['auth']], static function () {
+                    Route::get('/', function () {
+                        return redirect()->route('lingua.index');
+                    });
                     Route::get('/dashboard', [LinguaController::class, 'index'])->name('lingua.index');
                 });
                 Route::group(['middleware' => ['auth', 'role:admin']], static function () {
                     Route::get('/download/', [LinguaController::class, 'download'])->name('lingua.download');
                     Route::get('/upload/', [LinguaController::class, 'create'])->name('lingua.create');
+                    Route::get('/conflicts/', [LinguaController::class, 'conflicts'])->name('lingua.conflicts');
                     Route::get('/download/AllJson', [LinguaController::class, 'downloadJsons'])->name('lingua.downloadJsons');
                 });
             });
@@ -133,6 +138,7 @@ class LinguaServiceProvider extends ServiceProvider
         Livewire::component('translation-input', TranslationInput::class);
         Livewire::component('translation-modal', TranslationModal::class);
         Livewire::component('translation-table', TranslationTable::class);
+        Livewire::component('conflicts-dashboard', ConflictsDashboard::class);
 
         return $this;
     }

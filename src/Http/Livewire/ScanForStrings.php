@@ -15,6 +15,7 @@ class ScanForStrings extends Component
     protected $listeners = [
         'cancelDeletionTranslations' => 'close',
         'confirmDeletionTranslations' => 'open',
+        'scan' => 'scan',
     ];
 
     public function mount()
@@ -32,11 +33,16 @@ class ScanForStrings extends Component
         $this->isOpen = true;
     }
 
-    public function scan()
+    public function scan($path = false)
     {
-        $this->validate([
-            'path' => 'required',
-        ]);
+        if (! $path) {
+            $this->validate([
+                'path' => 'required',
+            ]);
+        } else {
+            $this->path = $path;
+        }
+
         $files = "";
 
         try {
