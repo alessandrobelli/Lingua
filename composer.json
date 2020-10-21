@@ -30,9 +30,9 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "laravel/legacy-factories": "^1.0.4",
         "livewire/livewire": "2.*",
-        "orchestra/testbench": "^5.2 || ^v6.2.0",
+        "orchestra/testbench": "^v5.0 || ^v6.2.0",
         "phpunit/phpunit": "^8.5.8 || ^9.0",
-        "psalm/plugin-laravel": "^1.2",
+        "psalm/plugin-laravel": "^v1.4.1",
         "vimeo/psalm": "^3.18.2"
     },
     "autoload": {
