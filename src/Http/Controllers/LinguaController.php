@@ -22,7 +22,6 @@ class LinguaController
     public function conflicts()
     {
         return view('lingua::conflicts');
-
     }
 
     public function download()
