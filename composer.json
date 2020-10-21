@@ -32,7 +32,7 @@
         "livewire/livewire": "2.*",
         "orchestra/testbench": "^v5.0 || ^v6.2.0",
         "phpunit/phpunit": "^8.5.8 || ^9.0",
-        "psalm/plugin-laravel": "^v1.4.1",
+        "psalm/plugin-laravel": "^v1.4.0",
         "vimeo/psalm": "^3.18.2"
     },
     "autoload": {
