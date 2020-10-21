@@ -31,7 +31,7 @@
         "laravel/legacy-factories": "^1.0.4",
         "livewire/livewire": "2.*",
         "orchestra/testbench": "^5.2 || ^6.0",
-        "phpunit/phpunit": "^8.5.8 || ^9.0",
+        "phpunit/phpunit": "3.8.* || ^8.5.8 || ^9.0",
         "psalm/plugin-laravel": "^1.2",
         "vimeo/psalm": "^3.18.2"
     },
