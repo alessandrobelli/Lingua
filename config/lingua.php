@@ -8,6 +8,9 @@ return
             "__()" => "/__\((?:'|\")(.+?)(?:'|\")\)/m",
             "trans()" => "/trans\((?:'|\")(.+?)(?:'|\")\)/m",
         ],
+        'regexTags' => "/>([^<\n\r__,{{(.*?)}}]+)</m",
+        'regexTagsStart' => "/>([^<\n\r__,]*)(",
+        'regexTagsEnd' => ")</m",
         'table-fields' => [
             'string',
             'language',
