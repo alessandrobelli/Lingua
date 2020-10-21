@@ -60,7 +60,7 @@
                 "alessandrobelli\\Lingua\\LinguaServiceProvider"
             ],
             "aliases": {
-                "Lingua": "alessandrobelli\\Lingua\\",
+                "Lingua": "alessandrobelli\\Lingua",
                 "confirm-delete-modal": "alessandrobelli\\Lingua\\Http\\Livewire\\ConfirmDeleteModal",
                 "csv-import": "alessandrobelli\\Lingua\\Http\\Livewire\\CsvImport",
                 "export-to-csv": "alessandrobelli\\Lingua\\Http\\Livewire\\ExportToCsv",
@@ -69,7 +69,8 @@
                 "toast-message-show": "alessandrobelli\\Lingua\\Http\\Livewire\\ToastMessageShow",
                 "translation-input": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationInput",
                 "translation-table": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationTable",
-                "translation-modal": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationModal"
+                "translation-modal": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationModal",
+                "conflict-dashboard": "alessandrobelli\\Lingua\\Http\\Livewire\\ConflictDashboard"
             }
         }
     },
