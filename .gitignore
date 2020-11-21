@@ -9,3 +9,4 @@ coverage
 /node_modules/
 configure-skeleton.sh
 
+/.github/hooks/
