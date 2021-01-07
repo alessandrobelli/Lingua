@@ -2,6 +2,10 @@
 
 All notable changes to `lingua` will be documented in this file
 
+## 0.2.1 - 2021-01-07
+
+- Update to support PHP8
+
 ## 0.2 - 2020-10-15
 
 - Conflicts dashboard
