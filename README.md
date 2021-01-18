@@ -1,4 +1,8 @@
-# Translation Manager for Laravel, built with TALL stack.
+
+# :tongue: Lingua
+## Translation Manager for Laravel, built with TALL stack.
+
+_:it: From Italian: Lingua means both Tongue and Language_
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/alessandrobelli/lingua.svg?style=flat-square)](https://packagist.org/packages/alessandrobelli/lingua)
 ![GitHub Tests Action Status](https://github.com/alessandrobelli/lingua/workflows/Tests/badge.svg)[![Total Downloads](https://img.shields.io/packagist/dt/alessandrobelli/lingua.svg?style=flat-square)](https://packagist.org/packages/alessandrobelli/lingua)
