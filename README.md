@@ -1,4 +1,3 @@
-
 # :tongue: Lingua
 ## Translation Manager for Laravel, built with TALL stack.
 
