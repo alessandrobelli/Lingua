@@ -9,10 +9,15 @@ use Storage;
 class ConfirmDeleteModal extends Component
 {
     public bool $isOpen = false;
+
     public $entityToDelete;
+
     public $whatToDelete;
+
     public $params = [];
+
     public $message;
+
     protected $listeners = [
         'closeModal' => 'close',
         'confirmDelete' => 'open',
@@ -20,28 +25,28 @@ class ConfirmDeleteModal extends Component
 
     public function delete()
     {
-        if ($this->entityToDelete === "locale") {
+        if ($this->entityToDelete === 'locale') {
             foreach (Translation::all() as $translation) {
                 $json_array = $translation->locales;
-                $locales = explode(",", $this->params);
+                $locales = explode(',', $this->params);
                 foreach ($locales as $locale) {
                     if (array_key_exists($locale, $json_array) && $locale == $this->whatToDelete) {
                         unset($json_array[$locale]);
                     } elseif (! array_key_exists($locale, $json_array) && $locale != $this->whatToDelete) {
-                        $json_array[$locale] = "";
+                        $json_array[$locale] = '';
                     }
                 }
                 $translation->locales = $json_array;
                 $translation->save();
             }
             $this->deleteLocaleFiles();
-        } elseif ($this->entityToDelete === "translations") {
+        } elseif ($this->entityToDelete === 'translations') {
             $this->deleteLocaleFiles();
             Translation::truncate();
             $this->emit('refreshTranslations');
             $this->emit('show-toast', 'All translations deleted', 'success');
             $this->isOpen = false;
-        } elseif ($this->entityToDelete === "merge translations") {
+        } elseif ($this->entityToDelete === 'merge translations') {
             $this->emit('merge', $this->params[0], $this->params[1]);
             $this->isOpen = false;
         }
@@ -49,7 +54,7 @@ class ConfirmDeleteModal extends Component
 
     public function close()
     {
-        $this->whatToDelete = "";
+        $this->whatToDelete = '';
         $this->isOpen = false;
     }
 
@@ -59,7 +64,7 @@ class ConfirmDeleteModal extends Component
      * @param $params
      * @param $message
      */
-    public function open($entityToDelete, $whatToDelete, $params, $message = "")
+    public function open($entityToDelete, $whatToDelete, $params, $message = '')
     {
         $this->entityToDelete = $entityToDelete;
         $this->whatToDelete = $whatToDelete;
@@ -70,7 +75,7 @@ class ConfirmDeleteModal extends Component
 
     public function mount()
     {
-        $this->whatToDelete = "";
+        $this->whatToDelete = '';
     }
 
     public function render()
@@ -81,10 +86,10 @@ class ConfirmDeleteModal extends Component
     private function deleteLocaleFiles(): void
     {
         $resource_path = Storage::createLocalDriver(['root' => resource_path(), 'driver' => 'local']);
-        if ($this->entityToDelete === "translations") {
+        if ($this->entityToDelete === 'translations') {
             foreach (Translation::allLocales() as $locale) {
                 try {
-                    $resource_path->delete("/lang/" . $locale . ".json");
+                    $resource_path->delete('/lang/'.$locale.'.json');
                 } catch (\Exception $e) {
                     $this->emit('refreshLocales');
                     $this->emit('show-toast', 'There it was an error while deleting a locale file.', 'error');
@@ -92,9 +97,9 @@ class ConfirmDeleteModal extends Component
                 }
             }
             $this->emit('refreshLocales');
-        } elseif ($this->entityToDelete == "locale") {
+        } elseif ($this->entityToDelete == 'locale') {
             try {
-                $resource_path->delete("/lang/" . $this->whatToDelete . ".json");
+                $resource_path->delete('/lang/'.$this->whatToDelete.'.json');
                 $this->emit('refreshLocales');
                 $this->emit('refreshTranslations');
                 $this->emit('show-toast', 'Locales Successfully deleted', 'success');

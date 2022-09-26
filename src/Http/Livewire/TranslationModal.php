@@ -10,6 +10,7 @@ class TranslationModal extends Component
     public $translation;
 
     public bool $isOpen = false;
+
     protected $listeners = [
         'closeModal' => 'close',
         'showModal' => 'open',
@@ -18,7 +19,7 @@ class TranslationModal extends Component
     public function close()
     {
         $this->isOpen = false;
-        $this->translation = "";
+        $this->translation = '';
     }
 
     public function open($id)
@@ -26,8 +27,6 @@ class TranslationModal extends Component
         $this->isOpen = true;
         $this->translation = Translation::find($id);
     }
-
-
 
     public function render()
     {

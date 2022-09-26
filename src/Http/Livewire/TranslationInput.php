@@ -8,7 +8,9 @@ use Livewire\Component;
 class TranslationInput extends Component
 {
     public $translation;
+
     public $locale;
+
     public $translationModel;
 
     public function mount($id, $locale, $newTranslation)

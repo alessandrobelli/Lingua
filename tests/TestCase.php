@@ -21,7 +21,7 @@ class TestCase extends Orchestra
             $this->makeACleanSlate();
         });
         Facade::setFacadeApplication(app());
-        $this->withFactories(__DIR__ . '/database/factories');
+        $this->withFactories(__DIR__.'/database/factories');
         $this->setUpRoutes();
         //   $this->artisan('db:seed', ['--class' => RolesSeeder::class]);
     }
@@ -49,12 +49,10 @@ class TestCase extends Orchestra
         ];
     }
 
-
-
     public function getEnvironmentSetUp($app)
     {
         $app['config']->set('view.paths', [
-            __DIR__ . '/../views',
+            __DIR__.'/../views',
             resource_path('views'),
         ]);
         $app['config']->set('database.default', 'sqlite');
@@ -65,10 +63,10 @@ class TestCase extends Orchestra
         ]);
         $app['config']->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
         $app['config']->set('session.driver', 'file');
-        include_once __DIR__ . '/../database/migrations/create_lingua_table.php.stub';
-        include_once __DIR__ . '/../database/migrations/create_users_table.php.stub';
-        include_once __DIR__ . '/../database/migrations/create_roles_table.php.stub';
-        include_once __DIR__ . '/../database/migrations/add_projects_to_user_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_lingua_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_users_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_roles_table.php.stub';
+        include_once __DIR__.'/../database/migrations/add_projects_to_user_table.php.stub';
         (new \CreateLinguaTable())->up();
         (new \CreateRolesTable())->up();
         (new \CreateUsersTable())->up();

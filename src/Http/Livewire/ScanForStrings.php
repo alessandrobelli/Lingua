@@ -9,9 +9,13 @@ use Livewire\Component;
 class ScanForStrings extends Component
 {
     public $path;
-    public $project = "";
-    public $pattern = "all";
+
+    public $project = '';
+
+    public $pattern = 'all';
+
     public bool $isOpen = false;
+
     protected $listeners = [
         'cancelDeletionTranslations' => 'close',
         'confirmDeletionTranslations' => 'open',
@@ -43,7 +47,7 @@ class ScanForStrings extends Component
             $this->path = $path;
         }
 
-        $files = "";
+        $files = '';
 
         try {
             $files = File::allFiles($this->path);
@@ -56,9 +60,9 @@ class ScanForStrings extends Component
         $pattern = $this->pattern;
         $oldStrings = Translation::pluck('string')->toArray();
         $addedStrings = [];
-        if ($this->pattern === "all") {
+        if ($this->pattern === 'all') {
             foreach (config('lingua.regex') as $key => $pattern) {
-                if ($key == "all") {
+                if ($key == 'all') {
                     continue;
                 }
                 $this->scanStringsInsideFiles($files, $pattern, $matches, $addedStrings);
@@ -93,10 +97,11 @@ class ScanForStrings extends Component
 
     /**
      * If I find a string multiple times in the same file, it needs to be a different project to be added.
-     * @param array $files
-     * @param       $pattern
-     * @param       $matches
-     * @param array $addedStrings
+     *
+     * @param  array  $files
+     * @param    $pattern
+     * @param    $matches
+     * @param  array  $addedStrings
      */
     private function scanStringsInsideFiles(array $files, $pattern, &$matches, array &$addedStrings): void
     {
@@ -104,18 +109,18 @@ class ScanForStrings extends Component
             if (preg_match_all($pattern, File::get($file->getPathname()), $matches, PREG_OFFSET_CAPTURE)) {
                 foreach ($matches[1] as $match) {
                     array_push($addedStrings, $match[0]);
-                    list($before) = str_split(File::get($file->getPathname()), $match[1]); // fetches all the text before the match
-                    $line_number = strlen($before) - strlen(str_replace("\n", "", $before)) + 1;
-                    $translation = Translation::where('string', "=", $match[0])->where('project', $this->project)->first();
+                    [$before] = str_split(File::get($file->getPathname()), $match[1]); // fetches all the text before the match
+                    $line_number = strlen($before) - strlen(str_replace("\n", '', $before)) + 1;
+                    $translation = Translation::where('string', '=', $match[0])->where('project', $this->project)->first();
                     if ($translation) {
-                        if (strpos($translation->file, $file->getPathname() . " line: " . $line_number) === false) {
-                            $translation->update(['file' => $translation->file . "\n" . $file->getPathname() . " line: " . $line_number]);
+                        if (strpos($translation->file, $file->getPathname().' line: '.$line_number) === false) {
+                            $translation->update(['file' => $translation->file."\n".$file->getPathname().' line: '.$line_number]);
                         }
                     } else {
-                        $translationCreated = Translation::create(['string' => $match[0], 'file' => $file->getPathname() . " line: " . $line_number, 'project' => $this->project]);
+                        $translationCreated = Translation::create(['string' => $match[0], 'file' => $file->getPathname().' line: '.$line_number, 'project' => $this->project]);
                         foreach (Translation::allLocales() as $locale) {
                             $json_array = $translationCreated->locales;
-                            $json_array[$locale] = "";
+                            $json_array[$locale] = '';
                             $translationCreated->locales = $json_array;
                             $translationCreated->save();
                         }

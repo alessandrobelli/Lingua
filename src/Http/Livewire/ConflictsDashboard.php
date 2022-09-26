@@ -13,9 +13,13 @@ class ConflictsDashboard extends Component
     use WithPagination;
 
     public array $conflictsArray = [];
+
     public array $missingText = [];
+
     public array $latestTextWrapped = [];
+
     public array $latestTextUnified = [];
+
     protected $listeners = [
         'merge' => 'merge',
     ];
@@ -31,23 +35,21 @@ class ConflictsDashboard extends Component
         return view('lingua::livewire.conflicts-dashboard', ['conflictsArray' => $this->conflictsArray, 'missed' => $this->missingText]);
     }
 
-
-
     public function merge($arrayToUnify, Translation $unifier)
     {
         $regex = "/(?<=\/)(.*)(?=.line:)/m";
         foreach ($arrayToUnify as $key => $unified) {
-            if (Translation::find($unified["id"])->isNot($unifier)) {
-                $extractPath = preg_match_all($regex, $unified["file"], $paths);
+            if (Translation::find($unified['id'])->isNot($unifier)) {
+                $extractPath = preg_match_all($regex, $unified['file'], $paths);
                 if ($extractPath) {
                     //$paths[0] (or 1) is the path to the file, add / in the end.
                     foreach ($paths as $path) {
-                        $pathToUse = "/" . $path[0];
+                        $pathToUse = '/'.$path[0];
 
                         try {
-                            $patternUnified = "/__\((?:'|\")(" . $unified["string"] . ")(?:'|\")\)/m";
+                            $patternUnified = "/__\((?:'|\")(".$unified['string'].")(?:'|\")\)/m";
                             // $patternUnifier = "/__\((?:'|\")((".$unifier["string"].").+?)(?:'|\")\)/m";
-                            $FileContent = preg_replace($patternUnified, "__('" . $unifier["string"] . "')", File::get($pathToUse));
+                            $FileContent = preg_replace($patternUnified, "__('".$unifier['string']."')", File::get($pathToUse));
                             // $FileContent = str_replace('>{{__("' . $unified["string"] . '")}}<', '>{{__("' . $unifier["string"] . '")}}<', File::get($pathToUse));
                             if (file_put_contents($pathToUse, $FileContent) > 0) {
                                 $this->emit('show-toast', 'Strings are unified', 'success');
@@ -59,10 +61,10 @@ class ConflictsDashboard extends Component
                             $this->emit('show-toast', 'Severe error, check log.', 'error');
                         }
                     }
-                    if (! Str::contains($unifier->file, $unified["file"])) {
-                        $unifier->update(['file' => $unifier->file . "\n" . $unified["file"]]);
+                    if (! Str::contains($unifier->file, $unified['file'])) {
+                        $unifier->update(['file' => $unifier->file."\n".$unified['file']]);
                     }
-                    $translationToDelete = Translation::find($unified["id"]);
+                    $translationToDelete = Translation::find($unified['id']);
                     array_push($this->latestTextUnified, $translationToDelete);
                     $translationToDelete->delete();
                     $this->checkForSimilarStrings();
@@ -77,7 +79,7 @@ class ConflictsDashboard extends Component
         if (is_writable($file)) {
             try {
                 $FileContent = file_get_contents($file);
-                $FileContent = str_replace('>' . $string . '<', '>{{__("' . $string . '")}}<', File::get($file));
+                $FileContent = str_replace('>'.$string.'<', '>{{__("'.$string.'")}}<', File::get($file));
                 if (file_put_contents($file, $FileContent) > 0) {
                     $this->emit('show-toast', 'The file is changed.', 'success');
                     $this->checkForSimilarStrings();
@@ -99,7 +101,7 @@ class ConflictsDashboard extends Component
     {
         if (! empty($this->latestTextWrapped)) {
             try {
-                $FileContent = str_replace('>{{__("' . end($this->latestTextWrapped)[0] . '")}}<', '>' . end($this->latestTextWrapped)[0] . '<', File::get(end($this->latestTextWrapped)[1]));
+                $FileContent = str_replace('>{{__("'.end($this->latestTextWrapped)[0].'")}}<', '>'.end($this->latestTextWrapped)[0].'<', File::get(end($this->latestTextWrapped)[1]));
                 if (file_put_contents(end($this->latestTextWrapped)[1], $FileContent) > 0) {
                     $this->emit('show-toast', 'The wrap is removed.', 'success');
                     $this->checkForSimilarStrings();
@@ -130,7 +132,6 @@ class ConflictsDashboard extends Component
                 similar_text($base, $variation, $percent);
                 if ($percent > 85) {
                     if (count($this->conflictsArray) > 0) {
-
                         // is $allTranslation[$j] already in $this->conflictsArray?
                         foreach ($this->conflictsArray as $translation) {
                             $isTranslationAlreadySomewhere = array_search($allTranslation[$i], $translation);
@@ -173,9 +174,9 @@ class ConflictsDashboard extends Component
         foreach ($files as $file) {
             if (preg_match_all(config('lingua.regexTags'), File::get($file->getPathname()), $matches, PREG_OFFSET_CAPTURE)) {
                 foreach ($matches[1] as $match) {
-                    list($before) = str_split(File::get($file->getPathname()), $match[1]); // fetches all the text before the match
-                    $line_number = strlen($before) - strlen(str_replace("\n", "", $before)) + 1;
-                    array_push($this->missingText, [$match[0], $file->getPathname(), " line: " . $line_number]);
+                    [$before] = str_split(File::get($file->getPathname()), $match[1]); // fetches all the text before the match
+                    $line_number = strlen($before) - strlen(str_replace("\n", '', $before)) + 1;
+                    array_push($this->missingText, [$match[0], $file->getPathname(), ' line: '.$line_number]);
                 }
             }
         }

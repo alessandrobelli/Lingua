@@ -12,20 +12,20 @@ class Translation extends Model
     protected $fillable = [
         'string', 'file', 'project', 'locales',
     ];
+
     protected $casts = [
         'locales' => 'array',
     ];
 
     protected $attributes = ['locales' => '{}'];
 
-
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('string', 'like', '%' . $query . '%');
+            : static::where('string', 'like', '%'.$query.'%');
     }
 
-    public function hasEmptyTranslation() :bool
+    public function hasEmptyTranslation(): bool
     {
         foreach ($this->locales as $locale) {
             if (empty($locale)) {

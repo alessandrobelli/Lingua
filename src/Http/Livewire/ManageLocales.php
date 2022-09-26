@@ -9,7 +9,9 @@ use Livewire\Component;
 class ManageLocales extends Component
 {
     public $localeToAdd;
+
     public $locales;
+
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
     public function addLocale()
@@ -21,7 +23,7 @@ class ManageLocales extends Component
             if (! in_array($this->localeToAdd, $this->locales)) {
                 foreach (Translation::all() as $translation) {
                     $json_array = $translation->locales;
-                    $json_array[$this->localeToAdd] = "";
+                    $json_array[$this->localeToAdd] = '';
                     $translation->locales = $json_array;
                     $translation->save();
                 }
@@ -58,7 +60,7 @@ class ManageLocales extends Component
 
             try {
                 $resource_path = Storage::createLocalDriver(['root' => resource_path(), 'driver' => 'local']);
-                $resource_path->put('/lang' . "/" . $locale . ".json", json_encode(array_merge(...$allFiles[$locale])));
+                $resource_path->put('/lang'.'/'.$locale.'.json', json_encode(array_merge(...$allFiles[$locale])));
                 $this->emit('show-toast', 'Json Files are built!', 'success');
             } catch (\Exception $error) {
                 $this->emit('show-toast', 'An error occurred! \n'.$error, 'error');
@@ -73,6 +75,6 @@ class ManageLocales extends Component
 
     public function render()
     {
-        return view('lingua::livewire.manage-locales', ['locales' => $this->locales, 'translationsCount' => (string)Translation::all()->count()]);
+        return view('lingua::livewire.manage-locales', ['locales' => $this->locales, 'translationsCount' => (string) Translation::all()->count()]);
     }
 }

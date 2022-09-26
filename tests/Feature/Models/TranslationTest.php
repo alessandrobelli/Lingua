@@ -10,7 +10,6 @@ class TranslationTest extends TestCase
     /** @test */
     public function it_can_create_a_model()
     {
-
         /** @var Translation $model */
         $model = Translation::create(['string' => 'Login']);
         if (intval(app()->version()) > 6) {

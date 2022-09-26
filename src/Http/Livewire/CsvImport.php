@@ -12,11 +12,17 @@ class CsvImport extends Component
     use WithFileUploads;
 
     public $csv;
+
     public $csv_header;
+
     public $csv_data;
+
     public $languageField;
+
     public $stringToBeTranslatedField;
+
     public $translatedStringField;
+
     public $projectLabelString;
 
     public function parseHeader()
@@ -27,7 +33,7 @@ class CsvImport extends Component
         $path = $this->csv->getRealPath();
         $data = array_map('str_getcsv', file($path));
         $this->csv_header = $data[0];
-        array_unshift($this->csv_header, "");
+        array_unshift($this->csv_header, '');
     }
 
     public function parseImport()
@@ -41,10 +47,10 @@ class CsvImport extends Component
         $path = $this->csv->getRealPath();
         $data = array_map('str_getcsv', file($path));
         $this->csv_data = $data;
-        $this->emit('show-toast', count($data)." long", 'error');
+        $this->emit('show-toast', count($data).' long', 'error');
 
         for ($i = 1; $i < count($data); $i++) {
-            $string = str_replace('"', "", $data[$i][($this->stringToBeTranslatedField - 1)]);
+            $string = str_replace('"', '', $data[$i][($this->stringToBeTranslatedField - 1)]);
             $language = $data[$i][($this->languageField - 1)];
             $translation = $data[$i][($this->translatedStringField - 1)];
             $project = $this->projectLabelString ? $data[$i][($this->projectLabelString - 1)] : '';
@@ -75,12 +81,12 @@ class CsvImport extends Component
      */
     private function addLocaleIfNotExist($translationLanguage)
     {
-        $translationAndLocale = Translation::whereNotNull('locales->' . $translationLanguage)->first();
+        $translationAndLocale = Translation::whereNotNull('locales->'.$translationLanguage)->first();
         if (! $translationAndLocale) {
             //  locale doesn't. add it to the whole translations.
             foreach (Translation::all() as $translation) {
                 $json_array = $translation->locales;
-                $json_array[$translationLanguage] = "";
+                $json_array[$translationLanguage] = '';
                 $translation->locales = $json_array;
                 $translation->save();
             }

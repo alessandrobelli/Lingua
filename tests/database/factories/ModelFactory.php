@@ -20,7 +20,7 @@ $factory->define(User::class, function (Generator $faker, $params) {
         'name' => $faker->name,
         'email' => $email,
         'password' => bcrypt('secret'),
-        'linguaprojects' => "",
+        'linguaprojects' => '',
         'email_verified_at' => $faker->date('now'),
     ];
 });

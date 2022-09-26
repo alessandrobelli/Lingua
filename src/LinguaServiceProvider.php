@@ -24,7 +24,7 @@ class LinguaServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->register("Livewire\\LivewireServiceProvider");
+        $this->app->register('Livewire\\LivewireServiceProvider');
 
         $this->app->bind('lingua', function ($app) {
             return new Lingua();
@@ -42,14 +42,14 @@ class LinguaServiceProvider extends ServiceProvider
 
     public function registerMigrations(): self
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         return $this;
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/lingua.php', 'lingua');
+        $this->mergeConfigFrom(__DIR__.'/../config/lingua.php', 'lingua');
     }
 
     public function registerCommands(): self
@@ -70,20 +70,20 @@ class LinguaServiceProvider extends ServiceProvider
             return $this;
         }
         $this->publishes([
-            __DIR__ . '/../config/lingua.php' => config_path('lingua.php'),
+            __DIR__.'/../config/lingua.php' => config_path('lingua.php'),
         ], 'config');
         $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/lingua'),
+            __DIR__.'/../resources/views' => base_path('resources/views/vendor/lingua'),
         ], 'views');
         $this->publishes([
-            __DIR__ . '/Http/Livewire' => base_path('app/Http/Livewire/Lingua'),
+            __DIR__.'/Http/Livewire' => base_path('app/Http/Livewire/Lingua'),
         ], 'controllers');
         if (! class_exists('CreateTranslationTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_lingua_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_lingua_table.php'),
+                __DIR__.'/../database/migrations/create_lingua_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_lingua_table.php'),
             ], 'migrations');
             $this->publishes([
-                __DIR__ . '/../database/migrations/add_projects_to_user_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_projects_to_user_table.php'),
+                __DIR__.'/../database/migrations/add_projects_to_user_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_add_projects_to_user_table.php'),
             ], 'migrations');
         }
 
@@ -114,7 +114,7 @@ class LinguaServiceProvider extends ServiceProvider
 
     public function registerViews(): self
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lingua');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'lingua');
 
         return $this;
     }

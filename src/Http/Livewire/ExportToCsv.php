@@ -8,7 +8,9 @@ use Livewire\Component;
 class ExportToCsv extends Component
 {
     public $locales;
+
     public $languageToExport;
+
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
     public function mount()

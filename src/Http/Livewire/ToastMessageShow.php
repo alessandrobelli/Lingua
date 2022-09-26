@@ -7,12 +7,15 @@ use Livewire\Component;
 class ToastMessageShow extends Component
 {
     protected $listeners = ['show-toast' => 'setToast'];
+
     public $alertTypeClasses = [
         'success' => ' bg-green-500 text-white',
         'warning' => ' bg-yellow-300 text-black',
         'error' => ' bg-red-500 text-white',
     ];
+
     public $message = '';
+
     public $alertType = 'success';
 
     public function setToast($message, $alertType)
