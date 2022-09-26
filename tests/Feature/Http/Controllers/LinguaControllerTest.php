@@ -8,8 +8,6 @@ use alessandrobelli\Lingua\Http\Livewire\TranslationTable;
 use alessandrobelli\Lingua\Tests\TestCase;
 use alessandrobelli\Lingua\Tests\User;
 use Config;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\File;
 use Livewire\Livewire;
 
 class LinguaControllerTest extends TestCase
@@ -21,9 +19,9 @@ class LinguaControllerTest extends TestCase
         Config::push('lingua.admin', $user->email);
         $this->withoutExceptionHandling();
         $this->actingAs($user);
-  if (!file_exists(\resource_path().'/lang/')) {
-    mkdir(\resource_path().'/lang/', 0777, true);
-}
+        if (! file_exists(\resource_path().'/lang/')) {
+            mkdir(\resource_path().'/lang/', 0777, true);
+        }
         Livewire::test(ScanForStrings::class)->assertHasNoErrors();
         Livewire::test(ManageLocales::class)->assertHasNoErrors();
         Livewire::test(TranslationTable::class)->assertHasNoErrors();
@@ -63,9 +61,9 @@ class LinguaControllerTest extends TestCase
         $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         Config::push('lingua.admin', $user->email);
-if (!file_exists(\resource_path().'/lang/')) {
-    mkdir(\resource_path().'/lang/', 0777, true);
-}
+        if (! file_exists(\resource_path().'/lang/')) {
+            mkdir(\resource_path().'/lang/', 0777, true);
+        }
         $this
             ->actingAs($user)
             ->get('/lingua/upload')
