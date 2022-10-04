@@ -1,3 +1,6 @@
+![Lingua Banner](https://user-images.githubusercontent.com/3796324/193797408-61be81b3-afee-4b80-9e07-3a82472e73eb.png)
+
+
 # :tongue: Lingua
 ## Translation Manager for Laravel, built with TALL stack.
 
