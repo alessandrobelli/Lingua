@@ -21,8 +21,6 @@ use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-
-
 class LinguaServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
@@ -35,15 +33,13 @@ class LinguaServiceProvider extends PackageServiceProvider
             ->name('lingua')
             ->hasCommands(ChangeLinguaUserProject::class)
             ->hasViews()
-            ->hasMigrations('add_projects_to_user_table','create_lingua_table','create_roles_table','create_users_table')
+            ->hasMigrations('add_projects_to_user_table', 'create_lingua_table', 'create_roles_table', 'create_users_table')
             ->hasConfigFile();
-
-     
     }
 
     public function packageRegistered()
     {
-      Route::macro('lingua', function (string $prefix) {
+        Route::macro('lingua', function (string $prefix) {
             Route::prefix($prefix)->group(function () {
                 Route::group(['middleware' => ['auth']], static function () {
                     Route::get('/', function () {
@@ -59,9 +55,7 @@ class LinguaServiceProvider extends PackageServiceProvider
                 });
             });
         });
-
     }
-
 
     public function registerMiddleware(): self
     {
