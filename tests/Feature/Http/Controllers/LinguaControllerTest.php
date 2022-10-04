@@ -8,7 +8,6 @@ use alessandrobelli\Lingua\Http\Livewire\TranslationTable;
 use alessandrobelli\Lingua\Tests\TestCase;
 use alessandrobelli\Lingua\Tests\User;
 use Config;
-use Illuminate\Auth\AuthenticationException;
 use Livewire\Livewire;
 
 class LinguaControllerTest extends TestCase
