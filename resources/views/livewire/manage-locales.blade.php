@@ -1,7 +1,9 @@
-<div class="inline-block">
-    <div class="bg-gray-200 w-64 p-2 rounded inline-block align-top">
-        <h1 class="text-2xl font-bold opacity-75 text-base text-gray-800">{{__('List of Languages')}}</h1>
-        <p class="text-base mb-2 opacity-75 text-base text-gray-900">{{__('2. Add Locale')}}</p>
+<div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+    <div class="px-4 py-5 sm:px-6">
+        <h1 class="text-2xl font-bold text-gray-800 opacity-75">{{__('2. Add Locale')}}</h1>
+        <p class="text-base mb-2 opacity-75 text-base text-gray-900">{{__('List of Languages')}}</p>
+    </div>
+    <div class="px-4 py-5 sm:p-6">
         @foreach($locales as $locale)
         <div class="inline-flex bg-gray-200 border-l-4 border-gray-800 text-black px-4 py-3">
             <p class="inline-block mr-2">{{$locale}}</p>
@@ -17,27 +19,20 @@
         @endforeach
 
 
-        <div class="w-auto block  my-4">
-
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="locale">
-                Language
-            </label>
-            <div class="relative">
-                <select name="locale" wire:model="localeToAdd"
-                    class="bg-white block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500 @error('localeToAdd') border-red-800 @enderror">
+        <div class="w-full block  my-4">
+            <div>
+                <label for="locale" class="block text-sm font-medium text-gray-700">Language</label>
+                <select id="locale" name="locale" wire:model="localeToAdd"
+                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('localeToAdd') border-red-800 @enderror">
                     @foreach(config('lingua.locales-list') as $value)
                     <option value="{{$value['locale']}}">{{$value['isolanguagename']}} - {{$value['nativename']}} -
                         {{$value['locale']}}
                     </option>
                     @endforeach
                 </select>
-                <div class="inset-y-0 right-0
-                 pointer-events-none absolute  flex items-center px-2 text-gray-700">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                </div>
             </div>
+
+
 
 
         </div>
@@ -56,12 +51,17 @@
         </div>
         @enderror
     </div>
-    <div class="bg-gray-200 w-64 p-2 rounded inline-block">
+
+
+</div>
+<div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+    <div class="px-4 py-5 sm:px-6">
         <h1 class="text-2xl font-bold text-gray-800 opacity-75">Files</h1>
         <p class="text-base opacity-75 text-base text-gray-900">
             {{__('3. Build json files: this will enable the translation on the website with the current translations.')}}
         </p>
-
+    </div>
+    <div class="px-4 py-5 sm:p-6">
         <div class="block my-4">
             <a role="button"
                 class="bg-blue-900 border-blue-800 py-2 px-4 font-bold hover:bg-blue-700 text-white select-none"
@@ -76,30 +76,30 @@
                 </div>
 
             </div>
-    </div>
-    <div class="bg-gray-200 w-64 p-2 rounded inline-block align-top">
-        <h1 class="text-2xl font-bold text-gray-800 opacity-75">List of translation files.</h1>
+
+
+            <h1 class="text-2xl font-bold text-gray-800 opacity-75">List of translation files.</h1>
 
 
 
-        @if(count(File::files(resource_path() . "/lang/")))
-        <div class="bg-gray-800 p-2 text-gray-100 font-serif text-xs overflow-x-scroll text-center">
-            {{strlen(resource_path()) > 19 ? "...".substr(resource_path(),3,strlen(resource_path())): resource_path()}}
-        </div>
-        <div class="bg-white p-2 overflow-x-scroll whitespace-no-wrap divide-y">
-            @foreach(File::files(resource_path() . "/lang/") as $file)
-            <div class="block py-2">
-                {{$file->getBasename()}} -
-                {{alessandrobelli\Lingua\LinguaUtilities::array_multidimensional_search(config('lingua.locales-list'),'locale',$file->getFilenameWithoutExtension())[0]['isolanguagename']}}
+            @if(count(File::files(resource_path() . "/lang/")))
+            <div class="bg-gray-800 p-2 text-gray-100 font-serif text-xs overflow-x-scroll text-center">
+                {{strlen(resource_path()) > 19 ? "...".substr(resource_path(),3,strlen(resource_path())): resource_path()}}
             </div>
-            @endforeach
-        </div>
-        <div class="block my-4">
-            <a role="button"
-                class="bg-blue-900 border-blue-800 py-2 px-4 font-bold hover:bg-blue-700 text-white select-none"
-                wire:click="downloadjsons()">{{__('Download Json Files')}}</a>
-        </div>
+            <div class="bg-white p-2 overflow-x-scroll whitespace-no-wrap divide-y">
+                @foreach(File::files(resource_path() . "/lang/") as $file)
+                <div class="block py-2">
+                    {{$file->getBasename()}} -
+                    {{alessandrobelli\Lingua\LinguaUtilities::array_multidimensional_search(config('lingua.locales-list'),'locale',$file->getFilenameWithoutExtension())[0]['isolanguagename']}}
+                </div>
+                @endforeach
+            </div>
+            <div class="block my-4">
+                <a role="button"
+                    class="bg-blue-900 border-blue-800 py-2 px-4 font-bold hover:bg-blue-700 text-white select-none"
+                    wire:click="downloadjsons()">{{__('Download Json Files')}}</a>
+            </div>
 
-        @endif
+            @endif
     </div>
 </div>

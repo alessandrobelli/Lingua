@@ -2,15 +2,15 @@
 
 @section('content')
 
-        @if(in_array(auth()->user()->email, config('lingua.admin')))
-            <livewire:scan-for-strings>
+<div class="flex flex-row space-x-4">
+    @if(in_array(auth()->user()->email, config('lingua.admin')))
+    <livewire:scan-for-strings>
 
-            <livewire:manage-locales>
-                <livewire:confirm-delete-modal>
+        <livewire:manage-locales>
+            <livewire:confirm-delete-modal>
 
                 @endif
-    <livewire:translation-table>
 
-
-
-@endsection
+</div>
+<livewire:translation-table>
+    @endsection

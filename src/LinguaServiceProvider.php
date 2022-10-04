@@ -17,82 +17,33 @@ use alessandrobelli\Lingua\Http\Livewire\TranslationTable;
 use alessandrobelli\Lingua\Http\Middleware\CheckRole;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LinguaServiceProvider extends ServiceProvider
+
+
+class LinguaServiceProvider extends PackageServiceProvider
 {
-    public function boot()
+    public function configurePackage(Package $package): void
     {
         $this->app->register('Livewire\\LivewireServiceProvider');
+        $this->registerLivewireComponents();
+        $this->registerMiddleware();
 
-        $this->app->bind('lingua', function ($app) {
-            return new Lingua();
-        });
+        $package
+            ->name('lingua')
+            ->hasCommands(ChangeLinguaUserProject::class)
+            ->hasViews()
+            ->hasMigrations('add_projects_to_user_table','create_lingua_table','create_roles_table','create_users_table')
+            ->hasConfigFile();
 
-        $this
-            ->registerCommands()
-            ->registerPublishables()
-            ->registerViews()
-            ->registerRoutes()
-            ->registerMiddleware()
-            ->registerLivewireComponents()
-            ->registerMigrations();
+     
     }
 
-    public function registerMigrations(): self
+    public function packageRegistered()
     {
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-
-        return $this;
-    }
-
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__.'/../config/lingua.php', 'lingua');
-    }
-
-    public function registerCommands(): self
-    {
-        if (! $this->app->runningInConsole()) {
-            return $this;
-        }
-        $this->commands([
-            ChangeLinguaUserProject::class,
-        ]);
-
-        return $this;
-    }
-
-    public function registerPublishables(): self
-    {
-        if (! $this->app->runningInConsole()) {
-            return $this;
-        }
-        $this->publishes([
-            __DIR__.'/../config/lingua.php' => config_path('lingua.php'),
-        ], 'config');
-        $this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/lingua'),
-        ], 'views');
-        $this->publishes([
-            __DIR__.'/Http/Livewire' => base_path('app/Http/Livewire/Lingua'),
-        ], 'controllers');
-        if (! class_exists('CreateTranslationTable')) {
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_lingua_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_lingua_table.php'),
-            ], 'migrations');
-            $this->publishes([
-                __DIR__.'/../database/migrations/add_projects_to_user_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_add_projects_to_user_table.php'),
-            ], 'migrations');
-        }
-
-        return $this;
-    }
-
-    public function registerRoutes(): self
-    {
-        Route::macro('lingua', function (string $prefix) {
+      Route::macro('lingua', function (string $prefix) {
             Route::prefix($prefix)->group(function () {
                 Route::group(['middleware' => ['auth']], static function () {
                     Route::get('/', function () {
@@ -109,15 +60,8 @@ class LinguaServiceProvider extends ServiceProvider
             });
         });
 
-        return $this;
     }
 
-    public function registerViews(): self
-    {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'lingua');
-
-        return $this;
-    }
 
     public function registerMiddleware(): self
     {
