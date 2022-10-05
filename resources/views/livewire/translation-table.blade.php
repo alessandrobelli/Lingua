@@ -1,73 +1,72 @@
 <div class="px-4 sm:px-6 lg:px-8">
-    <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-            <p class="mt-2 text-sm text-gray-700">{{$translations->total()." ".__('strings.')}}
-                {{$translationNotCompleted->total()." ".__('strings not translated.')}}
-            </p>
-        </div>
-        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+    <div class="w-full">
+        <p class="mt-2 text-sm text-gray-700">{{$translations->total()." ".__('strings.')}} <br>
+            {{$translationNotCompleted->total()." ".__('strings not translated.')}}
+        </p>
+    </div>
+    <div class="flex">
 
-            <div class="w-2/4 inline-block">
-                <label class="font-bold">
+        <div class="mt-4 w-full justify-between flex space-x-4">
+
+            <div class="w-2/3">
+                <label class="block text-sm font-medium text-gray-700">
                     {{__('Search')}}
                     <input placeholder="Search Translations..." wire:model="search"
-                        class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 hover:border-gray-500 py-2 px-4 block w-full appearance-none leading-normal my-2"
+                        class="block w-full rounded-md border-gray-300 shadow-sm border focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
                         type="text" />
                 </label>
             </div>
-            <div class="w-1/4 inline-block float-right">
-                <label class="font-bold relative inline-block">
-                    Per Page: &nbsp;
-                    <select wire:model="perPage"
-                        class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-normal focus:outline-none focus:shadow-outline my-2">
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <div
-                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 pt-4 text-gray-700">
-                        <svg fill="currentColor" class="fill-current w-4 h-4" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </label>
+            <div class="w-1/3 float-right">
+                <label for="perPage" class="block text-sm font-medium text-gray-700">{{__('Per Page:')}}&nbsp;</label>
+                <select id="perPage" name="perPage" wire:model="perPage" wire:model="perPage"
+                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm @error('localeToAdd') border-red-800 @enderror">
+                    <option>10</option>
+                    <option>25</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+
+
             </div>
             <div class="w-full align-middle">
-                <div class="font-bold w-full block">
+                <div class="block text-sm font-medium text-gray-700">
                     Show Columns
                 </div>
+                <div class="relative flex items-start">
+                    <div class="flex h-5 items-center">
+                        <input wire:model="showFiles" wire:click="toggleshowFiles" type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label class="font-medium text-gray-700">{{__('File location')}}</label>
+                    </div>
+                </div>
+                <div class="relative flex items-start">
+                    <div class="flex h-5 items-center">
+                        <input wire:model="showProject" wire:click="toggleshowProject" type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label class="font-medium text-gray-700">{{__('Project/Label')}}</label>
+                    </div>
+                </div>
 
-                <label class="md:w-1/3 block text-blue-900 font-bold inline mr-2">
-                    <input class="mr-1 leading-tight" type="checkbox" wire:click="toggleshowFiles"
-                        wire:model="showFiles">
-                    <span class="text-sm">
-                        {{__('File location')}}
-                    </span>
-                </label>
-                <label class="md:w-1/3 block text-blue-900 font-bold inline mr-2">
-                    <input class="mr-1 leading-tight" type="checkbox" wire:click="toggleshowProject"
-                        wire:model="showProject">
-                    <span class="text-sm">
-                        {{__('Project/Label')}}
-                    </span>
-                </label>
+
 
             </div>
             <div class="w-full align-middle">
-                <div class="font-bold w-full block">
-                    Options
+                <div class="block text-sm font-medium text-gray-700">
+                    {{__('Options')}}
                 </div>
-
-                <label class="md:w-1/3 block text-blue-900 font-bold inline mr-2">
-                    <input class="mr-1 leading-tight" type="checkbox" wire:click="toggleonlyToTranslate"
-                        wire:model="onlyToTranslate">
-                    <span class="text-sm">
-                        {{__('Only Strings to translate')}}
-                    </span>
-                </label>
+                <div class="relative flex items-start">
+                    <div class="flex h-5 items-center">
+                        <input wire:model="onlyToTranslate" wire:click="toggleonlyToTranslate" type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label class="font-medium text-gray-700">{{__('Only Strings to translate')}}</label>
+                    </div>
+                </div>
             </div>
 
 

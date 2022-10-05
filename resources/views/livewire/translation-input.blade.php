@@ -1,3 +1,4 @@
 <div class="w-full flex align-middle">
-    <textarea wire:model="translationModel" wire:change="saveTranslation" class="border py-4 px-2 hover:border-0 w-full "> </textarea>
+    <textarea rows="4" name="comment" id="comment" wire:model="translationModel" wire:change="saveTranslation"
+        class="block w-full rounded-none border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"></textarea>
 </div>

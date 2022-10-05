@@ -21,7 +21,7 @@
 
         <div class="w-full block  my-4">
             <div>
-                <label for="locale" class="block text-sm font-medium text-gray-700">Language</label>
+                <label for="locale" class="text-2xl font-bold text-gray-800 opacity-75">Language</label>
                 <select id="locale" name="locale" wire:model="localeToAdd"
                     class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('localeToAdd') border-red-800 @enderror">
                     @foreach(config('lingua.locales-list') as $value)
@@ -63,9 +63,8 @@
     </div>
     <div class="px-4 py-5 sm:p-6">
         <div class="block my-4">
-            <a role="button"
-                class="bg-blue-900 border-blue-800 py-2 px-4 font-bold hover:bg-blue-700 text-white select-none"
-                wire:click="buildJson()">{{__('Build Json Files')}}</a>
+            <button type="button" wire:click="buildJson()"
+                class="text-center inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">{{__('Build Json Files')}}</button>
         </div>
         <livewire:export-to-csv>
 
@@ -95,9 +94,10 @@
                 @endforeach
             </div>
             <div class="block my-4">
-                <a role="button"
-                    class="bg-blue-900 border-blue-800 py-2 px-4 font-bold hover:bg-blue-700 text-white select-none"
-                    wire:click="downloadjsons()">{{__('Download Json Files')}}</a>
+                <button type="button" wire:click="downloadjsons()"
+                    class="text-center inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">{{__('Download Json Files')}}</button>
+
+
             </div>
 
             @endif
