@@ -14,7 +14,6 @@ class ManageFiles extends Component
 
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
-
     public function getLocales()
     {
         $this->locales = Translation::allLocales();
