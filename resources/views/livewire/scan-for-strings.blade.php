@@ -1,7 +1,4 @@
 @section('pagespecificscripts')
-<script>
-    let test = trans("test");
-</script>
 @endsection
 <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow w-1/3">
     <div class="px-4 py-5 sm:px-6">
@@ -49,7 +46,7 @@
         </div>
 
         <div wire:loading wire:target="scan"
-            class="w-full h-full fixed block top-0 left-0 bg-blue-200 opacity-75 z-50 text-center align-center">
+            class="w-full h-full fixed block top-0 left-0 bg-blue-500 opacity-75 z-50 text-center align-center">
             <div class="absolute inset-0 flex items-center justify-center ">
                 <span class="lds-dual-ring"></span>
             </div>

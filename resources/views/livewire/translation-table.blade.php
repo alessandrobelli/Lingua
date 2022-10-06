@@ -111,13 +111,15 @@
                         <tbody class="divide-y divide-gray-200 bg-white">
                             @foreach($translations as $translation)
                             <tr class="divide-x divide-gray-200">
-                                <td class="whitespace-nowrap p-4 text-sm text-gray-500">{{$translation->string}}</td>
+                                <td class="p-4 text-sm text-gray-500 w-8 whitespace-pre-line">
+                                    {{$translation->string}}
+                                </td>
                                 @if($showFiles)
-                                <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                                <td class="whitespace-pre-line p-4 text-sm text-gray-500">
                                     {{"...".substr($translation->file,23)}}
                                 </td>
                                 @endif
-                                <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
+                                <td class="whitespace-pre-line py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
                                     @if(!empty($translation->locales))
                                     <button type="button"
                                         class="bg-transparent border focus:border-gray-900 border-gray-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full focus:outline-none"

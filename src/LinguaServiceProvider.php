@@ -8,6 +8,7 @@ use alessandrobelli\Lingua\Http\Livewire\ConfirmDeleteModal;
 use alessandrobelli\Lingua\Http\Livewire\ConflictsDashboard;
 use alessandrobelli\Lingua\Http\Livewire\CsvImport;
 use alessandrobelli\Lingua\Http\Livewire\ExportToCsv;
+use alessandrobelli\Lingua\Http\Livewire\ManageFiles;
 use alessandrobelli\Lingua\Http\Livewire\ManageLocales;
 use alessandrobelli\Lingua\Http\Livewire\ScanForStrings;
 use alessandrobelli\Lingua\Http\Livewire\ToastMessageShow;
@@ -71,6 +72,7 @@ class LinguaServiceProvider extends PackageServiceProvider
         Livewire::component('csv-import', CsvImport::class);
         Livewire::component('export-to-csv', ExportToCsv::class);
         Livewire::component('manage-locales', ManageLocales::class);
+        Livewire::component('manage-files', ManageFiles::class);
         Livewire::component('scan-for-strings', ScanForStrings::class);
         Livewire::component('toast-message-show', ToastMessageShow::class);
         Livewire::component('translation-input', TranslationInput::class);

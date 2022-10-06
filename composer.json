@@ -72,6 +72,7 @@
                 "csv-import": "alessandrobelli\\Lingua\\Http\\Livewire\\CsvImport",
                 "export-to-csv": "alessandrobelli\\Lingua\\Http\\Livewire\\ExportToCsv",
                 "manage-locales": "alessandrobelli\\Lingua\\Http\\Livewire\\manage-locales",
+                "manage-files": "alessandrobelli\\Lingua\\Http\\Livewire\\manage-files",
                 "scan-for-strings": "alessandrobelli\\Lingua\\Http\\Livewire\\ScanForStrings",
                 "toast-message-show": "alessandrobelli\\Lingua\\Http\\Livewire\\ToastMessageShow",
                 "translation-input": "alessandrobelli\\Lingua\\Http\\Livewire\\TranslationInput",
