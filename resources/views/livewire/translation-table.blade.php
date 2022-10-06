@@ -111,7 +111,7 @@
                         <tbody class="divide-y divide-gray-200 bg-white">
                             @foreach($translations as $translation)
                             <tr class="divide-x divide-gray-200">
-                                <td class="p-4 text-sm text-gray-500 w-8 whitespace-pre-line">
+                                <td class="p-4 text-sm text-gray-500 w-1/3 whitespace-pre-line">
                                     {{$translation->string}}
                                 </td>
                                 @if($showFiles)

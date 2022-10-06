@@ -210,8 +210,8 @@ return
                 'locale' => 'dv',
             ],
             38 => [
-                'isolanguagename' => 'Dutch, Flemish',
-                'nativename' => 'Nederlands, Vlaams',
+                'isolanguagename' => 'Dutch',
+                'nativename' => 'Nederlands',
                 'locale' => 'nl',
             ],
             39 => [

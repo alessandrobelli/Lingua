@@ -47,7 +47,7 @@ class CsvImport extends Component
         $path = $this->csv->getRealPath();
         $data = array_map('str_getcsv', file($path));
         $this->csv_data = $data;
-        $this->emit('show-toast', count($data).' long', 'error');
+        $this->emit('show-toast', count($data).' long', 'red');
 
         for ($i = 1; $i < count($data); $i++) {
             $string = str_replace('"', '', $data[$i][($this->stringToBeTranslatedField - 1)]);
@@ -62,9 +62,10 @@ class CsvImport extends Component
                 // CHECK WHY MULTI WORDS ARE CONSIDERED NOT THE SAME
                 $existingString = Translation::create(['string' => $string, 'project' => $project]);
             }
+
             $json_array = $existingString->locales;
             $json_array[$translationLanguage] = $translation;
-            $existingString->locales = $json_array;
+            $existingString->locales = mb_convert_encoding($json_array, 'UTF-8', 'UTF-8');
             $existingString->project = $project;
             $existingString->save();
         }

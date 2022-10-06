@@ -53,7 +53,7 @@ class ScanForStrings extends Component
             $files = File::allFiles($this->path);
         } catch (\Exception $e) {
             $this->addError('path', 'This path is not valid.');
-            $this->emit('show-toast', 'There is a problem with the directory you wrote.', 'error');
+            $this->emit('show-toast', 'There is a problem with the directory you wrote.', 'red');
 
             return;
         }
@@ -71,7 +71,7 @@ class ScanForStrings extends Component
             $this->scanStringsInsideFiles($files, $pattern, $matches, $addedStrings);
         }
         $this->removeTranslationsThatAreNotThereAnymore($oldStrings);
-        $this->emit('show-toast', 'Translation successfully scanned', 'success');
+        $this->emit('show-toast', 'Translation successfully scanned', 'green');
         $this->resetErrorBag();
         $this->resetValidation();
         $this->emit('refreshTranslations');
