@@ -41,7 +41,7 @@ class TranslationTable extends Component
     {
         $this->localesArray = [];
         foreach ($this->locales as $locale) {
-            array_push($this->localesArray, [$locale,false]);
+            array_push($this->localesArray, [$locale, false]);
         }
     }
 
@@ -109,23 +109,23 @@ class TranslationTable extends Component
                 )
                 ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                 ->paginate($this->perPage),
-                'translationNotCompleted' => Translation::search($this->search)
-                    ->where(
-                        function ($query) {
-                            if (! (auth()->user()->project === 'all' || is_null(auth()->user()->project) || auth()->user()->project == '')) {
-                                $query->whereIn('project', explode(',', auth()->user()->project));
-                            }
+            'translationNotCompleted' => Translation::search($this->search)
+                ->where(
+                    function ($query) {
+                        if (! (auth()->user()->project === 'all' || is_null(auth()->user()->project) || auth()->user()->project == '')) {
+                            $query->whereIn('project', explode(',', auth()->user()->project));
                         }
-                    )
-                    ->where(
-                        function ($query) {
-                            foreach (Translation::allLocales() as $locale) {
-                                $query->where('locales->'.$locale, '');
-                            }
+                    }
+                )
+                ->where(
+                    function ($query) {
+                        foreach (Translation::allLocales() as $locale) {
+                            $query->where('locales->'.$locale, '');
                         }
-                    )
-                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                    ->paginate($this->perPage),
+                    }
+                )
+                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                ->paginate($this->perPage),
         ]);
     }
 }
