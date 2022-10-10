@@ -15,6 +15,10 @@ Lingua is a dashboard that allows you to create, manage and import your translat
 
 **This package is in pre-release with known issues. Please report them.**
 
+```txt
+The new Release - 0.3 - bring a lot of changes, mainly in the interface. Screenshots here still outdated.
+```
+
 I would like to warmly thank [Spatie](https://spatie.be/) and Freek to have taught me how to develop packages.
 
 ## Requirements
