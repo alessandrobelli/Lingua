@@ -35,7 +35,7 @@
                 <div class="relative flex items-start">
                     <div class="flex h-5 items-center">
                         <input wire:model="showFiles" wire:click="toggleshowFiles" type="checkbox"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                     </div>
                     <div class="ml-3 text-sm">
                         <label class="font-medium text-gray-700">{{__('File location')}}</label>
@@ -44,7 +44,7 @@
                 <div class="relative flex items-start">
                     <div class="flex h-5 items-center">
                         <input wire:model="showProject" wire:click="toggleshowProject" type="checkbox"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                     </div>
                     <div class="ml-3 text-sm">
                         <label class="font-medium text-gray-700">{{__('Project/Label')}}</label>
@@ -61,12 +61,27 @@
                 <div class="relative flex items-start">
                     <div class="flex h-5 items-center">
                         <input wire:model="onlyToTranslate" wire:click="toggleonlyToTranslate" type="checkbox"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                     </div>
                     <div class="ml-3 text-sm">
-                        <label class="font-medium text-gray-700">{{__('Only Strings to translate')}}</label>
+                        <label
+                            class="font-medium text-gray-700">{{__('Strings that have no translations in any language.')}}</label>
                     </div>
                 </div>
+                @foreach($localesArray as $locale)
+                <div class="relative flex items-start">
+                    <div class="flex h-5 items-center">
+                        <input wire:model="localesArray.{{$loop->index}}.1"
+                            wire:click="toggleArrayValue({{$loop->index}})" type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label
+                            class="font-medium text-gray-700">{{alessandrobelli\Lingua\LinguaUtilities::array_multidimensional_search(config('lingua.locales-list'),'locale',$locale[0])[0]['isolanguagename']}}
+                            empty strings</label>
+                    </div>
+                </div>
+                @endforeach
             </div>
 
 
@@ -122,7 +137,7 @@
                                 <td class="whitespace-pre-line py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">
                                     @if(!empty($translation->locales))
                                     <button type="button"
-                                        class="bg-transparent border focus:border-gray-900 border-gray-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full focus:outline-none"
+                                        class="bg-transparent border focus:border-gray-900 border-gray-500 text-gray-500 hover:text-blue-500 font-bold py-2 px-4 rounded-full focus:outline-none"
                                         wire:click="$emit('showModal',{{$translation->id}})">
                                         {{__('Manage Translations')}}
                                     </button>
