@@ -27,11 +27,11 @@ class LinguaController
     public function download()
     {
         ray(request()->what);
-        if (request()->what == "All") {
+        if (request()->what == 'All') {
             $translations = Translation::all();
-        } elseif (request()->what == "Only translated strings") {
+        } elseif (request()->what == 'Only translated strings') {
             $translations = Translation::where('locales->'.request()->language, '<>', '')->get();
-        } elseif (request()->what == "Only not translated strings") {
+        } elseif (request()->what == 'Only not translated strings') {
             $translations = Translation::where('locales->'.request()->language, '=', '')->get();
         }
 

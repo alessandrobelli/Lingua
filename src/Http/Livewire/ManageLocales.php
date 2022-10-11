@@ -14,7 +14,7 @@ class ManageLocales extends Component
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
     protected $messages = [
-    'localeToAdd.required' => 'Please select a language.',
+        'localeToAdd.required' => 'Please select a language.',
 
     ];
 

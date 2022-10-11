@@ -11,7 +11,7 @@ class ExportToCsv extends Component
 
     public $languageToExport;
 
-    public $whatToExport = "All";
+    public $whatToExport = 'All';
 
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
