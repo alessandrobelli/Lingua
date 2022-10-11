@@ -11,6 +11,15 @@
             @endforeach
         </select>
     </div>
+    <div>
+
+        <select id="whatToExport" name="whatToExport" wire:model="whatToExport"
+            class="mt-1 block w-auto rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('languageToExport') border-red-800 @enderror">
+            <option value="All" selected>All Strings</option>
+            <option value="Only translated strings">Only translated strings</option>
+            <option value="Only not translated strings">Only not translated strings</option>
+        </select>
+    </div>
 
     <div class="flex my-2">
 

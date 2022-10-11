@@ -5,17 +5,18 @@
     </div>
     <div class="px-4 py-5 sm:p-6">
         @foreach($locales as $locale)
-        <div class="inline-flex bg-gray-200 border-l-4 border-gray-800 text-black px-4 py-3">
-            <p class="inline-block mr-2">{{$locale}}</p>
-            <button class="bg-red-700 hover:bg-red-900 inline-block p-1 justify-end"
-                wire:click="$emit('confirmDelete','locale','{{$locale}}','{{implode(",",$locales)}}','The translation file will be also deleted.')">
-                <svg class="fill-current text-white w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path
-                        d="M20 4h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711v2zm-7 15.5c0-1.267.37-2.447 1-3.448v-6.052c0-.552.447-1 1-1s1 .448 1 1v4.032c.879-.565 1.901-.922 3-1.006v-7.026h-18v18h13.82c-1.124-1.169-1.82-2.753-1.82-4.5zm-7 .5c0 .552-.447 1-1 1s-1-.448-1-1v-10c0-.552.447-1 1-1s1 .448 1 1v10zm5 0c0 .552-.447 1-1 1s-1-.448-1-1v-10c0-.552.447-1 1-1s1 .448 1 1v10zm13-.5c0 2.485-2.017 4.5-4.5 4.5s-4.5-2.015-4.5-4.5 2.017-4.5 4.5-4.5 4.5 2.015 4.5 4.5zm-3.086-2.122l-1.414 1.414-1.414-1.414-.707.708 1.414 1.414-1.414 1.414.707.708 1.414-1.414 1.414 1.414.708-.708-1.414-1.414 1.414-1.414-.708-.708z" />
-                </svg>
-            </button>
-        </div>
+        <button type="button"
+            wire:click="$emit('confirmDelete','locale','{{$locale}}','{{implode(",",$locales)}}','The translation file will be also deleted.')"
+            class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            {{$locale}}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="ml-3 -mr-1 h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+            </svg>
+
+
+        </button>
         @endforeach
 
 
@@ -23,7 +24,7 @@
             <div>
                 <label for="locale" class="text-2xl font-bold text-gray-800 opacity-75">Language</label>
                 <select id="locale" name="locale" wire:model="localeToAdd"
-                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('localeToAdd') border-red-800 @enderror">
+                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm @error('localeToAdd') border-red-800 @enderror">
                     @foreach(config('lingua.locales-list') as $value)
                     <option value="{{$value['locale']}}">{{$value['isolanguagename']}} - {{$value['nativename']}} -
                         {{$value['locale']}}
@@ -36,15 +37,15 @@
 
 
         </div>
-        <div class="w-full block my-4">
-            <a role="button"
-                class="bg-blue-900 border-blue-800 py-2 px-4 font-bold hover:bg-blue-700 text-white {{($translationsCount > 0) ? '' : 'opacity-50 cursor-not-allowed hover:bg-blue-900'}}"
-                wire:click="addLocale()">
-                {!! __('Add&nbsp;Locale') !!}</a>
+        <div class="block my-4">
+            <button type="button" wire:click="addLocale()"
+                class="text-center inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">{!!
+                __('Add&nbsp;Locale') !!}</button>
         </div>
 
+
         @error('localeToAdd')
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
             <strong class="font-bold">{{ $message }}</strong>
             <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
             </span>

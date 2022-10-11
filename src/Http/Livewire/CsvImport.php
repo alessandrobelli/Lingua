@@ -48,28 +48,38 @@ class CsvImport extends Component
         $data = array_map('str_getcsv', file($path));
         $this->csv_data = $data;
         $this->emit('show-toast', count($data).' long', 'red');
+        $errorStrings = 0;
 
         for ($i = 1; $i < count($data); $i++) {
             $string = str_replace('"', '', $data[$i][($this->stringToBeTranslatedField - 1)]);
-            $language = $data[$i][($this->languageField - 1)];
-            $translation = $data[$i][($this->translatedStringField - 1)];
-            $project = $this->projectLabelString ? $data[$i][($this->projectLabelString - 1)] : '';
 
-            $existingString = Translation::where('string', $string)->first();
-            $translationLanguage = LinguaUtilities::array_multidimensional_search(config('lingua.locales-list'), 'isolanguagename', $language)[0]['locale'];
-            $this->addLocaleIfNotExist($translationLanguage);
-            if (! $existingString) {
-                // CHECK WHY MULTI WORDS ARE CONSIDERED NOT THE SAME
-                $existingString = Translation::create(['string' => $string, 'project' => $project]);
+            try {
+                $language = $data[$i][($this->languageField - 1)];
+                $translation = $data[$i][($this->translatedStringField - 1)];
+                $project = $this->projectLabelString ? $data[$i][($this->projectLabelString - 1)] : '';
+
+                $existingString = Translation::where('string', $string)->first();
+                $translationLanguage = LinguaUtilities::array_multidimensional_search(config('lingua.locales-list'), 'isolanguagename', $language)[0]['locale'];
+                $this->addLocaleIfNotExist($translationLanguage);
+                if (! $existingString) {
+                    // CHECK WHY MULTI WORDS ARE CONSIDERED NOT THE SAME
+                    $existingString = Translation::create(['string' => $string, 'project' => $project]);
+                }
+
+                $json_array = $existingString->locales;
+                $json_array[$translationLanguage] = $translation;
+                $existingString->locales = mb_convert_encoding($json_array, 'UTF-8', 'UTF-8');
+                $existingString->project = $project;
+                $existingString->save();
+            } catch (\Throwable $th) {
             }
-
-            $json_array = $existingString->locales;
-            $json_array[$translationLanguage] = $translation;
-            $existingString->locales = mb_convert_encoding($json_array, 'UTF-8', 'UTF-8');
-            $existingString->project = $project;
-            $existingString->save();
         }
-        $this->emit('show-toast', 'Successfully imported CSV', 'success');
+
+        if ($errorStrings > 0) {
+            $this->emit('show-toast', $errorStrings.' strings were not imported, check if your CSV file is formatted correctly', 'error');
+        } else {
+            $this->emit('show-toast', 'Successfully imported CSV', 'success');
+        }
     }
 
     public function render()

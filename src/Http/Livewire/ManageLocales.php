@@ -13,6 +13,11 @@ class ManageLocales extends Component
 
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
+    protected $messages = [
+    'localeToAdd.required' => 'Please select a language.',
+
+    ];
+
     public function addLocale()
     {
         if (Translation::all()->count() > 0) {

@@ -11,6 +11,8 @@ class ExportToCsv extends Component
 
     public $languageToExport;
 
+    public $whatToExport = "All";
+
     protected $listeners = ['refreshLocales' => 'getLocales'];
 
     public function mount()
@@ -28,7 +30,7 @@ class ExportToCsv extends Component
         $this->validate([
             'languageToExport' => 'required',
         ]);
-        $this->redirectRoute('lingua.download', ['language' => $this->languageToExport]);
+        $this->redirectRoute('lingua.download', ['language' => $this->languageToExport, 'what' => $this->whatToExport]);
     }
 
     public function render()

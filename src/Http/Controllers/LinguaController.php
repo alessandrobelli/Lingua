@@ -26,7 +26,15 @@ class LinguaController
 
     public function download()
     {
-        $translations = Translation::all();
+        ray(request()->what);
+        if (request()->what == "All") {
+            $translations = Translation::all();
+        } elseif (request()->what == "Only translated strings") {
+            $translations = Translation::where('locales->'.request()->language, '<>', '')->get();
+        } elseif (request()->what == "Only not translated strings") {
+            $translations = Translation::where('locales->'.request()->language, '=', '')->get();
+        }
+
         $filename = request()->language.'.csv';
         $handle = fopen($filename, 'w+');
         fputcsv($handle, ['Text', 'Language', 'Project', 'Translation']);
@@ -52,7 +60,7 @@ class LinguaController
 
         $public_dir = public_path().DIRECTORY_SEPARATOR;
         $zipname = 'translations.zip';
-        $zip = new ZipArchive;
+        $zip = new ZipArchive();
 
         if ($zip->open($public_dir.DIRECTORY_SEPARATOR.$zipname, \ZipArchive::CREATE)) {
             foreach ($files as $file) {
