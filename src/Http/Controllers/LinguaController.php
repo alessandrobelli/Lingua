@@ -28,7 +28,7 @@ class LinguaController
     {
         if (request()->what == "Only translated strings") {
             $translations = Translation::where('locales->'.request()->language, '<>', '')->get();
-        } elseif (request()->what == "Only not translated strings") {
+        } elseif (request()->what == 'Only not translated strings') {
             $translations = Translation::where('locales->'.request()->language, '=', '')->get();
         } else {
             $translations = Translation::all();
