@@ -72,13 +72,14 @@ To use the translation files for Javascript files place this into your header:
 Then make a prototype function in Javascript to detect the `trans()` function inside your Javascript files, or use this, in case you use Vuejs and Lodash:
 
 ```Javascript
-Vue.prototype.trans = (key) =>
-    {
-    return _.isEmpty(
-        window.trans[key]) || _.isUndefined(window.trans[key]) ?
-        key :
-        window.trans[key];
-    };
+Vue.prototype.trans = (key) => {
+    if (_.isUndefined(window.trans[key])) {
+        return key;
+    } else {
+        if (window.trans[key] === "") return key;
+        return window.trans[key];
+    }
+};
 ```
 
 The language shown will be according to the locale of the browser, or you can use [this tutorial which worked for me](https://www.ryanoun.com/coding-notes/laravel/set-and-store-locale-in-laravel-5-6-using-middleware/).
