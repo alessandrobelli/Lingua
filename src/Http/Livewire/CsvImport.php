@@ -87,9 +87,6 @@ class CsvImport extends Component
         return view('lingua::livewire.csv-import');
     }
 
-    /**
-     * @param $translationLanguage
-     */
     private function addLocaleIfNotExist($translationLanguage)
     {
         $translationAndLocale = Translation::whereNotNull('locales->'.$translationLanguage)->first();

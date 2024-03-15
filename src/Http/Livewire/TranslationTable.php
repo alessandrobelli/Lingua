@@ -89,26 +89,26 @@ class TranslationTable extends Component
     public function render()
     {
         return view('lingua::livewire.translation-table', ['translations' => Translation::search($this->search)
-                ->where(
-                    function ($query) {
-                        if (! (auth()->user()->project === 'all' || is_null(auth()->user()->project) || auth()->user()->project == '')) {
-                            $query->whereIn('project', explode(',', auth()->user()->project));
+            ->where(
+                function ($query) {
+                    if (! (auth()->user()->project === 'all' || is_null(auth()->user()->project) || auth()->user()->project == '')) {
+                        $query->whereIn('project', explode(',', auth()->user()->project));
+                    }
+                    if ($this->onlyToTranslate) {
+                        foreach (Translation::allLocales() as $locale) {
+                            $query->where('locales->'.$locale, '');
                         }
-                        if ($this->onlyToTranslate) {
-                            foreach (Translation::allLocales() as $locale) {
-                                $query->where('locales->'.$locale, '');
-                            }
-                        } elseif ($this->somethingInlocalesArrayIsTrue) {
-                            foreach ($this->localesArray as $locale) {
-                                if ($locale[1]) {
-                                    $query->where('locales->'.$locale[0], '');
-                                }
+                    } elseif ($this->somethingInlocalesArrayIsTrue) {
+                        foreach ($this->localesArray as $locale) {
+                            if ($locale[1]) {
+                                $query->where('locales->'.$locale[0], '');
                             }
                         }
                     }
-                )
-                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                ->paginate($this->perPage),
+                }
+            )
+            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+            ->paginate($this->perPage),
             'translationNotCompleted' => Translation::search($this->search)
                 ->where(
                     function ($query) {

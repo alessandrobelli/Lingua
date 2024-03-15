@@ -58,12 +58,6 @@ class ConfirmDeleteModal extends Component
         $this->isOpen = false;
     }
 
-    /**
-     * @param $entityToDelete
-     * @param $whatToDelete
-     * @param $params
-     * @param $message
-     */
     public function open($entityToDelete, $whatToDelete, $params, $message = '')
     {
         $this->entityToDelete = $entityToDelete;

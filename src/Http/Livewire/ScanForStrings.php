@@ -82,9 +82,6 @@ class ScanForStrings extends Component
         return view('lingua::livewire.scan-for-strings');
     }
 
-    /**
-     * @param $oldStrings
-     */
     private function removeTranslationsThatAreNotThereAnymore($oldStrings)
     {
         $allNewStrings = Translation::pluck('string')->toArray();
@@ -97,11 +94,6 @@ class ScanForStrings extends Component
 
     /**
      * If I find a string multiple times in the same file, it needs to be a different project to be added.
-     *
-     * @param  array  $files
-     * @param    $pattern
-     * @param    $matches
-     * @param  array  $addedStrings
      */
     private function scanStringsInsideFiles(array $files, $pattern, &$matches, array &$addedStrings): void
     {

@@ -133,7 +133,7 @@ EOF;
 /**
  * Sets the USE_ANSI define for colorizing output
  *
- * @param  array  $argv Command-line arguments
+ * @param  array  $argv  Command-line arguments
  */
 function setUseAnsi($argv)
 {
@@ -148,7 +148,7 @@ function setUseAnsi($argv)
         define(
             'USE_ANSI',
             (DIRECTORY_SEPARATOR == '\\')
-                ? (false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI'))
+                ? (getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON')
                 : (function_exists('posix_isatty') && posix_isatty(1))
         );
     }
@@ -157,9 +157,9 @@ function setUseAnsi($argv)
 /**
  * Returns the value of a command-line option
  *
- * @param  string  $opt The command-line option to check
- * @param  array  $argv Command-line arguments
- * @param  mixed  $default Default value to be returned
+ * @param  string  $opt  The command-line option to check
+ * @param  array  $argv  Command-line arguments
+ * @param  mixed  $default  Default value to be returned
  * @return mixed The command-line value or the default
  */
 function getOptValue($opt, $argv, $default)
@@ -168,7 +168,7 @@ function getOptValue($opt, $argv, $default)
 
     foreach ($argv as $key => $value) {
         $next = $key + 1;
-        if (0 === strpos($value, $opt)) {
+        if (strpos($value, $opt) === 0) {
             if ($optLength === strlen($value) && isset($argv[$next])) {
                 return trim($argv[$next]);
             } else {
@@ -183,26 +183,26 @@ function getOptValue($opt, $argv, $default)
 /**
  * Checks that user-supplied params are valid
  *
- * @param  mixed  $installDir The required istallation directory
- * @param  mixed  $version The required composer version to install
- * @param  mixed  $cafile Certificate Authority file
+ * @param  mixed  $installDir  The required istallation directory
+ * @param  mixed  $version  The required composer version to install
+ * @param  mixed  $cafile  Certificate Authority file
  * @return bool True if the supplied params are okay
  */
 function checkParams($installDir, $version, $cafile)
 {
     $result = true;
 
-    if (false !== $installDir && ! is_dir($installDir)) {
+    if ($installDir !== false && ! is_dir($installDir)) {
         out("The defined install dir ({$installDir}) does not exist.", 'info');
         $result = false;
     }
 
-    if (false !== $version && 1 !== preg_match('/^\d+\.\d+\.\d+(\-(alpha|beta|RC)\d*)*$/', $version)) {
+    if ($version !== false && preg_match('/^\d+\.\d+\.\d+(\-(alpha|beta|RC)\d*)*$/', $version) !== 1) {
         out("The defined install version ({$version}) does not match release pattern.", 'info');
         $result = false;
     }
 
-    if (false !== $cafile && (! file_exists($cafile) || ! is_readable($cafile))) {
+    if ($cafile !== false && (! file_exists($cafile) || ! is_readable($cafile))) {
         out("The defined Certificate Authority (CA) cert file ({$cafile}) does not exist or is not readable.", 'info');
         $result = false;
     }
@@ -215,10 +215,10 @@ function checkParams($installDir, $version, $cafile)
  *
  * Errors are written to the output, warnings are saved for later display.
  *
- * @param  array  $warnings Populated by method, to be shown later
- * @param  bool  $quiet Quiet mode
- * @param  bool  $disableTls Bypass tls
- * @param  bool  $install If we are installing, rather than diagnosing
+ * @param  array  $warnings  Populated by method, to be shown later
+ * @param  bool  $quiet  Quiet mode
+ * @param  bool  $disableTls  Bypass tls
+ * @param  bool  $install  If we are installing, rather than diagnosing
  * @return bool True if there are no errors
  */
 function checkPlatform(&$warnings, $quiet, $disableTls, $install)
@@ -250,9 +250,9 @@ function checkPlatform(&$warnings, $quiet, $disableTls, $install)
 /**
  * Checks platform configuration for common incompatibility issues
  *
- * @param  array  $errors Populated by method
- * @param  array  $warnings Populated by method
- * @param  bool  $install If we are installing, rather than diagnosing
+ * @param  array  $errors  Populated by method
+ * @param  array  $warnings  Populated by method
+ * @param  bool  $install  If we are installing, rather than diagnosing
  * @return bool If any errors or warnings have been found
  */
 function getPlatformIssues(&$errors, &$warnings, $install)
@@ -279,7 +279,7 @@ function getPlatformIssues(&$errors, &$warnings, $install)
     if (extension_loaded('suhosin')) {
         $suhosin = ini_get('suhosin.executor.include.whitelist');
         $suhosinBlacklist = ini_get('suhosin.executor.include.blacklist');
-        if (false === stripos($suhosin, 'phar') && (! $suhosinBlacklist || false !== stripos($suhosinBlacklist, 'phar'))) {
+        if (stripos($suhosin, 'phar') === false && (! $suhosinBlacklist || stripos($suhosinBlacklist, 'phar') !== false)) {
             $errors['suhosin'] = [
                 'The suhosin.executor.include.whitelist setting is incorrect.',
                 'Add the following to the end of your `php.ini` or suhosin.ini (Example path [for Debian]: /etc/php5/cli/conf.d/suhosin.ini):',
@@ -431,7 +431,7 @@ function getPlatformIssues(&$errors, &$warnings, $install)
     if (preg_match('{Configure Command(?: *</td><td class="v">| *=> *)(.*?)(?:</td>|$)}m', $phpinfo, $match)) {
         $configure = $match[1];
 
-        if (false !== strpos($configure, '--enable-sigchild')) {
+        if (strpos($configure, '--enable-sigchild') !== false) {
             $warnings['sigchild'] = [
                 'PHP was compiled with --enable-sigchild which can cause issues on some platforms.',
                 'Recompile it without this flag if possible, see also:',
@@ -439,7 +439,7 @@ function getPlatformIssues(&$errors, &$warnings, $install)
             ];
         }
 
-        if (false !== strpos($configure, '--with-curlwrappers')) {
+        if (strpos($configure, '--with-curlwrappers') !== false) {
             $warnings['curlwrappers'] = [
                 'PHP was compiled with --with-curlwrappers which will cause issues with HTTP authentication and GitHub.',
                 'Recompile it without this flag if possible',
@@ -489,7 +489,7 @@ function showWarnings($warnings)
 /**
  * Outputs an end of process warning if tls has been bypassed
  *
- * @param  bool  $disableTls Bypass tls
+ * @param  bool  $disableTls  Bypass tls
  */
 function showSecurityWarning($disableTls)
 {
@@ -649,9 +649,9 @@ class Installer
     /**
      * Constructor - must not do anything that throws an exception
      *
-     * @param  bool  $quiet Quiet mode
-     * @param  bool  $disableTls Bypass tls
-     * @param  mixed  $cafile Path to CA bundle, or false
+     * @param  bool  $quiet  Quiet mode
+     * @param  bool  $disableTls  Bypass tls
+     * @param  mixed  $cafile  Path to CA bundle, or false
      */
     public function __construct($quiet, $disableTls, $caFile)
     {
@@ -666,10 +666,10 @@ class Installer
     /**
      * Runs the installer
      *
-     * @param  mixed  $version Specific version to install, or false
-     * @param  mixed  $installDir Specific installation directory, or false
-     * @param  string  $filename Specific filename to save to, or composer.phar
-     * @param  string  $channel Specific version channel to use
+     * @param  mixed  $version  Specific version to install, or false
+     * @param  mixed  $installDir  Specific installation directory, or false
+     * @param  string  $filename  Specific filename to save to, or composer.phar
+     * @param  string  $channel  Specific version channel to use
      * @return bool If the installation succeeded
      *
      * @throws Exception If anything other than a RuntimeException is caught
@@ -712,8 +712,8 @@ class Installer
     /**
      * Initialization methods to set the required filenames and composer url
      *
-     * @param  mixed  $installDir Specific installation directory, or false
-     * @param  string  $filename Specific filename to save to, or composer.phar
+     * @param  mixed  $installDir  Specific installation directory, or false
+     * @param  string  $filename  Specific filename to save to, or composer.phar
      *
      * @throws RuntimeException If the installation directory is not writable
      */
@@ -792,9 +792,9 @@ class Installer
     /**
      * Writes public key data to disc
      *
-     * @param  string  $data The public key(s) in pem format
-     * @param  string  $path The directory to write to
-     * @param  string  $filename The name of the file
+     * @param  string  $data  The public key(s) in pem format
+     * @param  string  $path  The directory to write to
+     * @param  string  $filename  The name of the file
      * @return string The path to the saved data
      *
      * @throws RuntimeException If the file cannot be written
@@ -824,8 +824,8 @@ class Installer
     /**
      * The main install function
      *
-     * @param  mixed  $version Specific version to install, or false
-     * @param  string  $channel Version channel to use
+     * @param  mixed  $version  Specific version to install, or false
+     * @param  string  $channel  Version channel to use
      * @return bool If the installation succeeded
      */
     protected function install($version, $channel)
@@ -880,10 +880,10 @@ class Installer
     /**
      * Sets the version url, downloading version data if required
      *
-     * @param  string  $channel Version channel to use
-     * @param  false|string  $version Version to install, or set by method
-     * @param  null|string  $url The versioned url, set by method
-     * @param  null|string  $error Set by method on failure
+     * @param  string  $channel  Version channel to use
+     * @param  false|string  $version  Version to install, or set by method
+     * @param  null|string  $url  The versioned url, set by method
+     * @param  null|string  $error  Set by method on failure
      * @return bool If the operation succeeded
      */
     protected function getVersion($channel, &$version, &$url, &$error)
@@ -912,8 +912,8 @@ class Installer
     /**
      * Downloads and json-decodes version data
      *
-     * @param  null|array  $data Downloaded version data, set by method
-     * @param  null|string  $error Set by method on failure
+     * @param  null|array  $data  Downloaded version data, set by method
+     * @param  null|string  $error  Set by method on failure
      * @return bool If the operation succeeded
      */
     protected function downloadVersionData(&$data, &$error)
@@ -939,9 +939,9 @@ class Installer
     /**
      * A wrapper around the methods needed to download and save the phar
      *
-     * @param  string  $url The versioned download url
-     * @param  null|string  $signature Set by method on successful download
-     * @param  null|string  $error Set by method on failure
+     * @param  string  $url  The versioned download url
+     * @param  null|string  $signature  Set by method on successful download
+     * @param  null|string  $error  Set by method on failure
      * @return bool If the operation succeeded
      */
     protected function downloadToTmp($url, &$signature, &$error)
@@ -970,9 +970,9 @@ class Installer
     /**
      * Verifies the downloaded file and saves it to the target location
      *
-     * @param  string  $version The composer version downloaded
-     * @param  string  $signature The digital signature to check
-     * @param  null|string  $error Set by method on failure
+     * @param  string  $version  The composer version downloaded
+     * @param  string  $signature  The digital signature to check
+     * @param  null|string  $error  Set by method on failure
      * @return bool If the operation succeeded
      */
     protected function verifyAndSave($version, $signature, &$error)
@@ -999,10 +999,10 @@ class Installer
     /**
      * Parses an array of version data to match the required channel
      *
-     * @param  array  $data Downloaded version data
-     * @param  mixed  $channel Version channel to use
-     * @param  false|string  $version Set by method
-     * @param  mixed  $url The versioned url, set by method
+     * @param  array  $data  Downloaded version data
+     * @param  mixed  $channel  Version channel to use
+     * @param  false|string  $version  Set by method
+     * @param  mixed  $url  The versioned url, set by method
      */
     protected function parseVersionData(array $data, $channel, &$version, &$url)
     {
@@ -1029,8 +1029,8 @@ class Installer
     /**
      * Downloads the digital signature of required phar file
      *
-     * @param  string  $url The signature url
-     * @param  null|string  $signature Set by method on success
+     * @param  string  $url  The signature url
+     * @param  null|string  $signature  Set by method on success
      * @return bool If the download succeeded
      */
     protected function getSignature($url, &$signature)
@@ -1051,9 +1051,9 @@ class Installer
     /**
      * Verifies the signature of the downloaded phar
      *
-     * @param  string  $version The composer versione
-     * @param  string  $signature The downloaded digital signature
-     * @param  string  $file The temp phar file
+     * @param  string  $version  The composer versione
+     * @param  string  $signature  The downloaded digital signature
+     * @param  string  $file  The temp phar file
      * @return bool If the operation succeeded
      */
     protected function verifySignature($version, $signature, $file)
@@ -1062,12 +1062,12 @@ class Installer
             $path = preg_match('{^[0-9a-f]{40}$}', $version) ? $this->pubKeys['dev'] : $this->pubKeys['tags'];
             $pubkeyid = openssl_pkey_get_public('file://'.$path);
 
-            $result = 1 === openssl_verify(
+            $result = openssl_verify(
                 file_get_contents($file),
                 $signature,
                 $pubkeyid,
                 $this->algo
-            );
+            ) === 1;
 
             // PHP 8 automatically frees the key instance and deprecates the function
             if (PHP_VERSION_ID < 80000) {
@@ -1081,8 +1081,8 @@ class Installer
     /**
      * Validates the downloaded phar file
      *
-     * @param  string  $pharFile The temp phar file
-     * @param  null|string  $error Set by method on failure
+     * @param  string  $pharFile  The temp phar file
+     * @param  null|string  $error  Set by method on failure
      * @return bool If the operation succeeded
      */
     protected function validatePhar($pharFile, &$error)
@@ -1125,7 +1125,7 @@ class Installer
     /**
      * Cleans up resources at the end of the installation
      *
-     * @param  bool  $result If the installation succeeded
+     * @param  bool  $result  If the installation succeeded
      */
     protected function cleanUp($result)
     {
@@ -1225,8 +1225,8 @@ class ErrorHandler
     /**
      * Handle php errors
      *
-     * @param  mixed  $code The error code
-     * @param  mixed  $msg The error message
+     * @param  mixed  $code  The error code
+     * @param  mixed  $msg  The error message
      */
     public function handleError($code, $msg)
     {
@@ -1289,7 +1289,7 @@ class NoProxyPattern
     /**
      * Returns true if NO_PROXY contains getcomposer.org
      *
-     * @param  string  $url http(s)://getcomposer.org
+     * @param  string  $url  http(s)://getcomposer.org
      * @return bool
      */
     public function test($url)
@@ -1373,6 +1373,7 @@ class HttpClient
                 $this->options['ssl']['SNI_server_name'] = parse_url($url, PHP_URL_HOST);
             }
         }
+
         // Keeping the above mostly isolated from the code copied from Composer.
         return $this->getMergedStreamContext($url);
     }
@@ -1468,7 +1469,7 @@ class HttpClient
      *
      * Any changes should be applied there as well, or backported here.
      *
-     * @param  string  $url URL the context is to be used for
+     * @param  string  $url  URL the context is to be used for
      * @return resource Default context
      *
      * @throws \RuntimeException if https proxy required and OpenSSL uninstalled
@@ -1530,7 +1531,7 @@ class HttpClient
             ];
 
             // add request_fulluri for http requests
-            if ('http' === parse_url($url, PHP_URL_SCHEME)) {
+            if (parse_url($url, PHP_URL_SCHEME) === 'http') {
                 $options['http']['request_fulluri'] = true;
             }
 

@@ -53,7 +53,7 @@ class ConflictsDashboard extends Component
                             // $FileContent = str_replace('>{{__("' . $unified["string"] . '")}}<', '>{{__("' . $unifier["string"] . '")}}<', File::get($pathToUse));
                             if (file_put_contents($pathToUse, $FileContent) > 0) {
                                 $this->emit('show-toast', 'Strings are unified', 'success');
-                            //  array_push($this->latestTextUnified,$unifier);
+                                //  array_push($this->latestTextUnified,$unifier);
                             } else {
                                 $this->emit('show-toast', 'Error replacing the string.', 'error');
                             }
@@ -119,7 +119,7 @@ class ConflictsDashboard extends Component
     }
 
     /**
-     * @param $percent
+     * @param  $percent
      */
     private function checkForSimilarStrings(): void
     {
@@ -157,7 +157,7 @@ class ConflictsDashboard extends Component
     }
 
     /**
-     * @param $matches
+     * @param  $matches
      */
     private function getNonWrappedStrings(): void
     {

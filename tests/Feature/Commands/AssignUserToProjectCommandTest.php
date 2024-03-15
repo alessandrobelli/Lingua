@@ -33,9 +33,9 @@ class AssignUserToProjectCommandTest extends TestCase
         $user = factory(User::class)->create();
         $translation = factory(Translation::class)->create();
         $this->artisan(ChangeLinguaUserProject::class)
-             ->expectsQuestion('Enter user email', $user->email)
-             ->expectsQuestion('Any specific project to assign to '.$user->email.'? (blank for all, comma separated for multiple)', $translation->project)
-             ->expectsOutput('User assigned to project(s)')
-             ->assertExitCode(0);
+            ->expectsQuestion('Enter user email', $user->email)
+            ->expectsQuestion('Any specific project to assign to '.$user->email.'? (blank for all, comma separated for multiple)', $translation->project)
+            ->expectsOutput('User assigned to project(s)')
+            ->assertExitCode(0);
     }
 }
