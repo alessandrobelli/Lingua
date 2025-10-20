@@ -15,7 +15,7 @@ class LinguaControllerTest extends TestCase
     /** @test */
     public function lingua_dashboard_works()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Config::push('lingua.admin', $user->email);
         $this->withoutExceptionHandling();
         $this->actingAs($user);
@@ -40,7 +40,7 @@ class LinguaControllerTest extends TestCase
     public function test_lingua_routes_translator()
     {
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Config::push('lingua.translator', $user->email);
 
         $this
@@ -59,7 +59,7 @@ class LinguaControllerTest extends TestCase
     public function test_lingua_routes_admin()
     {
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Config::push('lingua.admin', $user->email);
         if (! file_exists(\resource_path().'/lang/')) {
             mkdir(\resource_path().'/lang/', 0777, true);

@@ -19,13 +19,15 @@ class LinguaLivewireTest extends TestCase
         parent::setUp();
     }
 
+    /** @test */
     public function can_update_locales()
     {
         $this->withoutExceptionHandling();
-        $this->actingAs(factory(User::class)->create());
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $newTranslation = 'a';
-        $translation = Translation::create(['string' => 'test', 'locales' => "[{'de':''}]"]);
-        $this->actingAs(factory(User::class)->create());
+        $translation = Translation::create(['string' => 'test', 'locales' => ['de' => '']]);
+
         Livewire::test(ManageLocales::class, ['localeToAdd' => 'de'])->call('addLocale');
         Livewire::test(
             TranslationInput::class,

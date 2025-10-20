@@ -21,7 +21,6 @@ class TestCase extends Orchestra
             $this->makeACleanSlate();
         });
         Facade::setFacadeApplication(app());
-        $this->withFactories(__DIR__.'/database/factories');
         $this->setUpRoutes();
         //   $this->artisan('db:seed', ['--class' => RolesSeeder::class]);
     }

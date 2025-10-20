@@ -2,10 +2,13 @@
 
 namespace alessandrobelli\Lingua;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Translation extends Model
 {
+    use HasFactory;
+
     /**
      * @var string[]
      */
@@ -18,6 +21,11 @@ class Translation extends Model
     ];
 
     protected $attributes = ['locales' => '{}'];
+
+    protected static function newFactory()
+    {
+        return \alessandrobelli\Lingua\Tests\Database\Factories\TranslationFactory::new();
+    }
 
     public static function search($query)
     {

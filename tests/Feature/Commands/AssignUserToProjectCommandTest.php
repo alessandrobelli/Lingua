@@ -20,8 +20,8 @@ class AssignUserToProjectCommandTest extends TestCase
     /** @test */
     public function user_factory_works()
     {
-        $user = factory(User::class)->create();
-        $translation = factory(Translation::class)->create();
+        $user = User::factory()->create();
+        $translation = Translation::factory()->create();
         $user->linguaprojects = $translation->project;
         $user->save();
         $this->assertEquals($translation->project, $user->linguaprojects);
@@ -30,8 +30,8 @@ class AssignUserToProjectCommandTest extends TestCase
     /** @test */
     public function assign_user_to_projects_command_works()
     {
-        $user = factory(User::class)->create();
-        $translation = factory(Translation::class)->create();
+        $user = User::factory()->create();
+        $translation = Translation::factory()->create();
         $this->artisan(ChangeLinguaUserProject::class)
             ->expectsQuestion('Enter user email', $user->email)
             ->expectsQuestion('Any specific project to assign to '.$user->email.'? (blank for all, comma separated for multiple)', $translation->project)
