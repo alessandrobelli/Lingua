@@ -5,13 +5,13 @@ namespace alessandrobelli\Lingua\Tests;
 use alessandrobelli\Lingua\LinguaServiceProvider;
 use alessandrobelli\Lingua\Tests\database\seeds\RolesSeeder;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Facade as Facade;
+use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->afterApplicationCreated(function () {
@@ -67,9 +67,9 @@ class TestCase extends Orchestra
         include_once __DIR__.'/../database/migrations/create_users_table.php.stub';
         include_once __DIR__.'/../database/migrations/create_roles_table.php.stub';
         include_once __DIR__.'/../database/migrations/add_projects_to_user_table.php.stub';
-        (new \CreateLinguaTable())->up();
-        (new \CreateRolesTable())->up();
-        (new \CreateUsersTable())->up();
-        (new \addProjectsToUserTable())->up();
+        (new \CreateLinguaTable)->up();
+        (new \CreateRolesTable)->up();
+        (new \CreateUsersTable)->up();
+        (new \addProjectsToUserTable)->up();
     }
 }

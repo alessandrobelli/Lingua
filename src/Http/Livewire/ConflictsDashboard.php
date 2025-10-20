@@ -40,7 +40,7 @@ class ConflictsDashboard extends Component
             if (Translation::find($unified['id'])->isNot($unifier)) {
                 $extractPath = preg_match_all($regex, $unified['file'], $paths);
                 if ($extractPath) {
-                    //$paths[0] (or 1) is the path to the file, add / in the end.
+                    // $paths[0] (or 1) is the path to the file, add / in the end.
                     foreach ($paths as $path) {
                         $pathToUse = '/'.$path[0];
 

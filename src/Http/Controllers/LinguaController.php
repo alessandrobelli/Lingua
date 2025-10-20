@@ -59,7 +59,7 @@ class LinguaController
 
         $public_dir = public_path().DIRECTORY_SEPARATOR;
         $zipname = 'translations.zip';
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($public_dir.DIRECTORY_SEPARATOR.$zipname, \ZipArchive::CREATE)) {
             foreach ($files as $file) {
