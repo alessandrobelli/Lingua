@@ -15,7 +15,7 @@ class TranslationFactory extends Factory
             'string' => fake()->word(),
             'file' => fake()->url(),
             'project' => fake()->domainName(),
-            'locales' => json_encode([]),
+            'locales' => [],
         ];
     }
 }

@@ -46,11 +46,23 @@ class Translation extends Model
 
     public static function allLocales()
     {
+        $translations = Translation::all();
+
+        if ($translations->isEmpty()) {
+            return [];
+        }
+
+        $localesArray = $translations->pluck('locales')->filter()->unique()->toArray();
+
+        if (empty($localesArray)) {
+            return [];
+        }
+
         // testing doesn't like the cast and if table is empty return empty string instead of empty array
         if (app()->runningInConsole()) {
-            $allLocales = array_keys(array_merge([...Translation::all()->pluck('locales')->unique()->toArray()]));
+            $allLocales = array_keys(array_merge(...$localesArray));
         } else {
-            $allLocales = array_keys(array_merge(...Translation::all()->pluck('locales')->unique()->toArray()));
+            $allLocales = array_keys(array_merge(...$localesArray));
         }
 
         return $allLocales;
