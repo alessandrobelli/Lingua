@@ -6,6 +6,9 @@ jobs:
   php-code-styling:
     runs-on: ubuntu-latest
 
+    # Skip if the commit is from the auto-commit action to prevent loops
+    if: "!contains(github.event.head_commit.message, 'Fix styling')"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
