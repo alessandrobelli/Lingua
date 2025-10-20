@@ -3,6 +3,7 @@
 namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Storage;
 
@@ -17,11 +18,6 @@ class ConfirmDeleteModal extends Component
     public $params = [];
 
     public $message;
-
-    protected $listeners = [
-        'closeModal' => 'close',
-        'confirmDelete' => 'open',
-    ];
 
     public function delete()
     {
@@ -43,21 +39,23 @@ class ConfirmDeleteModal extends Component
         } elseif ($this->entityToDelete === 'translations') {
             $this->deleteLocaleFiles();
             Translation::truncate();
-            $this->emit('refreshTranslations');
-            $this->emit('show-toast', 'All translations deleted', 'success');
+            $this->dispatch('refreshTranslations');
+            $this->dispatch('show-toast', message: 'All translations deleted', alertType: 'success');
             $this->isOpen = false;
         } elseif ($this->entityToDelete === 'merge translations') {
-            $this->emit('merge', $this->params[0], $this->params[1]);
+            $this->dispatch('merge', $this->params[0], $this->params[1]);
             $this->isOpen = false;
         }
     }
 
+    #[On('closeModal')]
     public function close()
     {
         $this->whatToDelete = '';
         $this->isOpen = false;
     }
 
+    #[On('confirmDelete')]
     public function open($entityToDelete, $whatToDelete, $params, $message = '')
     {
         $this->entityToDelete = $entityToDelete;
@@ -85,23 +83,23 @@ class ConfirmDeleteModal extends Component
                 try {
                     $resource_path->delete('/lang/'.$locale.'.json');
                 } catch (\Exception $e) {
-                    $this->emit('refreshLocales');
-                    $this->emit('show-toast', 'There it was an error while deleting a locale file.', 'error');
+                    $this->dispatch('refreshLocales');
+                    $this->dispatch('show-toast', message: 'There it was an error while deleting a locale file.', alertType: 'error');
                     $this->isOpen = false;
                 }
             }
-            $this->emit('refreshLocales');
+            $this->dispatch('refreshLocales');
         } elseif ($this->entityToDelete == 'locale') {
             try {
                 $resource_path->delete('/lang/'.$this->whatToDelete.'.json');
-                $this->emit('refreshLocales');
-                $this->emit('refreshTranslations');
-                $this->emit('show-toast', 'Locales Successfully deleted', 'success');
+                $this->dispatch('refreshLocales');
+                $this->dispatch('refreshTranslations');
+                $this->dispatch('show-toast', message: 'Locales Successfully deleted', alertType: 'success');
                 $this->isOpen = false;
             } catch (\Exception $e) {
-                $this->emit('refreshLocales');
-                $this->emit('refreshTranslations');
-                $this->emit('show-toast', 'Locales deleted, error on deleting file.', 'error');
+                $this->dispatch('refreshLocales');
+                $this->dispatch('refreshTranslations');
+                $this->dispatch('show-toast', message: 'Locales deleted, error on deleting file.', alertType: 'error');
                 $this->isOpen = false;
             }
         }

@@ -26,8 +26,8 @@ class TranslationInput extends Component
         $json_array[$this->locale] = $this->translationModel;
         $this->translation->locales = $json_array;
         $this->translation->save();
-        $this->emit('refreshTranslations');
-        $this->emit('show-toast', 'Translation Successfully updated', 'success');
+        $this->dispatch('refreshTranslations');
+        $this->dispatch('show-toast', message: 'Translation Successfully updated', alertType: 'success');
     }
 
     public function render()

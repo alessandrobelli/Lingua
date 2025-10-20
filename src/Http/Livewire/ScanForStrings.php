@@ -4,6 +4,7 @@ namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
 use Illuminate\Support\Facades\File;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ScanForStrings extends Component
@@ -16,27 +17,24 @@ class ScanForStrings extends Component
 
     public bool $isOpen = false;
 
-    protected $listeners = [
-        'cancelDeletionTranslations' => 'close',
-        'confirmDeletionTranslations' => 'open',
-        'scan' => 'scan',
-    ];
-
     public function mount()
     {
         $this->path = resource_path();
     }
 
+    #[On('cancelDeletionTranslations')]
     public function close()
     {
         $this->isOpen = false;
     }
 
+    #[On('confirmDeletionTranslations')]
     public function open($locale, $locales)
     {
         $this->isOpen = true;
     }
 
+    #[On('scan')]
     public function scan($path = false)
     {
         if (! $path) {
@@ -53,7 +51,7 @@ class ScanForStrings extends Component
             $files = File::allFiles($this->path);
         } catch (\Exception $e) {
             $this->addError('path', 'This path is not valid.');
-            $this->emit('show-toast', 'There is a problem with the directory you wrote.', 'error');
+            $this->dispatch('show-toast', message: 'There is a problem with the directory you wrote.', alertType: 'error');
 
             return;
         }
@@ -71,10 +69,10 @@ class ScanForStrings extends Component
             $this->scanStringsInsideFiles($files, $pattern, $matches, $addedStrings);
         }
         $this->removeTranslationsThatAreNotThereAnymore($oldStrings);
-        $this->emit('show-toast', 'Translation successfully scanned', 'success');
+        $this->dispatch('show-toast', message: 'Translation successfully scanned', alertType: 'success');
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->emit('refreshTranslations');
+        $this->dispatch('refreshTranslations');
     }
 
     public function render()

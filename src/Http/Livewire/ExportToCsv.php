@@ -3,6 +3,7 @@
 namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ExportToCsv extends Component
@@ -13,13 +14,12 @@ class ExportToCsv extends Component
 
     public $whatToExport = 'All';
 
-    protected $listeners = ['refreshLocales' => 'getLocales'];
-
     public function mount()
     {
         $this->getLocales();
     }
 
+    #[On('refreshLocales')]
     public function getLocales()
     {
         $this->locales = Translation::AllLocales();

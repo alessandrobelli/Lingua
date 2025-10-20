@@ -2,12 +2,11 @@
 
 namespace alessandrobelli\Lingua\Http\Livewire;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ToastMessageShow extends Component
 {
-    protected $listeners = ['show-toast' => 'setToast'];
-
     public $alertTypeClasses = [
         'success' => 'green',
         'warning' => 'yellow',
@@ -18,11 +17,12 @@ class ToastMessageShow extends Component
 
     public $alertType = 'success';
 
+    #[On('show-toast')]
     public function setToast($message, $alertType)
     {
         $this->message = $message;
         $this->alertType = $alertType;
-        $this->dispatchBrowserEvent('toast-message-show');
+        $this->dispatch('toast-message-show');
     }
 
     public function render()

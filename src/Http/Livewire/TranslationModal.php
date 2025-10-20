@@ -3,6 +3,7 @@
 namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class TranslationModal extends Component
@@ -11,17 +12,14 @@ class TranslationModal extends Component
 
     public bool $isOpen = false;
 
-    protected $listeners = [
-        'closeModal' => 'close',
-        'showModal' => 'open',
-    ];
-
+    #[On('closeModal')]
     public function close()
     {
         $this->isOpen = false;
         $this->translation = '';
     }
 
+    #[On('showModal')]
     public function open($id)
     {
         $this->isOpen = true;

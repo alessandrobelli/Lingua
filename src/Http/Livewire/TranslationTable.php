@@ -3,6 +3,7 @@
 namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -19,8 +20,6 @@ class TranslationTable extends Component
     public bool $sortAsc = true;
 
     public bool $onlyToTranslate = false;
-
-    public $listeners = ['refreshTranslations' => 'render'];
 
     public $showProject = false;
 
@@ -86,6 +85,7 @@ class TranslationTable extends Component
         $this->sortField = $field;
     }
 
+    #[On('refreshTranslations')]
     public function render()
     {
         return view('lingua::livewire.translation-table', ['translations' => Translation::search($this->search)

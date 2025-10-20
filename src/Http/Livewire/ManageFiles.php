@@ -4,6 +4,7 @@ namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ManageFiles extends Component
@@ -12,8 +13,7 @@ class ManageFiles extends Component
 
     public $locales;
 
-    protected $listeners = ['refreshLocales' => 'getLocales'];
-
+    #[On('refreshLocales')]
     public function getLocales()
     {
         $this->locales = Translation::allLocales();
@@ -36,9 +36,9 @@ class ManageFiles extends Component
             try {
                 $resource_path = Storage::createLocalDriver(['root' => resource_path(), 'driver' => 'local']);
                 $resource_path->put('/lang'.'/'.$locale.'.json', json_encode(array_merge(...$allFiles[$locale])));
-                $this->emit('show-toast', 'Json Files are built!', 'success');
+                $this->dispatch('show-toast', message: 'Json Files are built!', alertType: 'success');
             } catch (\Exception $error) {
-                $this->emit('show-toast', 'An error occurred! \n'.$error, 'error');
+                $this->dispatch('show-toast', message: 'An error occurred! \n'.$error, alertType: 'error');
             }
         }
     }

@@ -3,6 +3,7 @@
 namespace alessandrobelli\Lingua\Http\Livewire;
 
 use alessandrobelli\Lingua\Translation;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ManageLocales extends Component
@@ -10,8 +11,6 @@ class ManageLocales extends Component
     public $localeToAdd;
 
     public $locales;
-
-    protected $listeners = ['refreshLocales' => 'getLocales'];
 
     protected $messages = [
         'localeToAdd.required' => 'Please select a language.',
@@ -31,18 +30,19 @@ class ManageLocales extends Component
                     $translation->locales = $json_array;
                     $translation->save();
                 }
-                $this->emit('show-toast', 'Locales Successfully added', 'success');
+                $this->dispatch('show-toast', message: 'Locales Successfully added', alertType: 'success');
                 array_push($this->locales, $this->localeToAdd);
-                $this->emit('refreshTranslations');
-                $this->emit('refreshLocales');
+                $this->dispatch('refreshTranslations');
+                $this->dispatch('refreshLocales');
             } else {
-                $this->emit('show-toast', 'Locales already present', 'error');
+                $this->dispatch('show-toast', message: 'Locales already present', alertType: 'error');
             }
         } else {
-            $this->emit('show-toast', 'Please scan for strings to add a locale.', 'error');
+            $this->dispatch('show-toast', message: 'Please scan for strings to add a locale.', alertType: 'error');
         }
     }
 
+    #[On('refreshLocales')]
     public function getLocales()
     {
         $this->locales = Translation::allLocales();

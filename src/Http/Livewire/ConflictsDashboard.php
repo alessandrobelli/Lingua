@@ -5,6 +5,7 @@ namespace alessandrobelli\Lingua\Http\Livewire;
 use alessandrobelli\Lingua\Translation;
 use File;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,10 +21,6 @@ class ConflictsDashboard extends Component
 
     public array $latestTextUnified = [];
 
-    protected $listeners = [
-        'merge' => 'merge',
-    ];
-
     public function mount()
     {
         $this->getNonWrappedStrings();
@@ -35,6 +32,7 @@ class ConflictsDashboard extends Component
         return view('lingua::livewire.conflicts-dashboard', ['conflictsArray' => $this->conflictsArray, 'missed' => $this->missingText]);
     }
 
+    #[On('merge')]
     public function merge($arrayToUnify, Translation $unifier)
     {
         $regex = "/(?<=\/)(.*)(?=.line:)/m";
@@ -52,13 +50,13 @@ class ConflictsDashboard extends Component
                             $FileContent = preg_replace($patternUnified, "__('".$unifier['string']."')", File::get($pathToUse));
                             // $FileContent = str_replace('>{{__("' . $unified["string"] . '")}}<', '>{{__("' . $unifier["string"] . '")}}<', File::get($pathToUse));
                             if (file_put_contents($pathToUse, $FileContent) > 0) {
-                                $this->emit('show-toast', 'Strings are unified', 'success');
+                                $this->dispatch('show-toast', message: 'Strings are unified', alertType: 'success');
                                 //  array_push($this->latestTextUnified,$unifier);
                             } else {
-                                $this->emit('show-toast', 'Error replacing the string.', 'error');
+                                $this->dispatch('show-toast', message: 'Error replacing the string.', alertType: 'error');
                             }
                         } catch (Exception $e) {
-                            $this->emit('show-toast', 'Severe error, check log.', 'error');
+                            $this->dispatch('show-toast', message: 'Severe error, check log.', alertType: 'error');
                         }
                     }
                     if (! Str::contains($unifier->file, $unified['file'])) {
@@ -81,19 +79,19 @@ class ConflictsDashboard extends Component
                 $FileContent = file_get_contents($file);
                 $FileContent = str_replace('>'.$string.'<', '>{{__("'.$string.'")}}<', File::get($file));
                 if (file_put_contents($file, $FileContent) > 0) {
-                    $this->emit('show-toast', 'The file is changed.', 'success');
+                    $this->dispatch('show-toast', message: 'The file is changed.', alertType: 'success');
                     $this->checkForSimilarStrings();
                     $this->getNonWrappedStrings();
                     array_push($this->latestTextWrapped, [$string, $file]);
                 } else {
-                    $this->emit('show-toast', 'Error replacing the string.', 'error');
+                    $this->dispatch('show-toast', message: 'Error replacing the string.', alertType: 'error');
                 }
             } catch (Exception $e) {
-                $this->emit('show-toast', 'Severe error, check log.', 'error');
+                $this->dispatch('show-toast', message: 'Severe error, check log.', alertType: 'error');
             }
         } else {
             $this->addError('path', 'This path is not valid.');
-            $this->emit('show-toast', 'The file is not writable.', 'error');
+            $this->dispatch('show-toast', message: 'The file is not writable.', alertType: 'error');
         }
     }
 
@@ -103,18 +101,18 @@ class ConflictsDashboard extends Component
             try {
                 $FileContent = str_replace('>{{__("'.end($this->latestTextWrapped)[0].'")}}<', '>'.end($this->latestTextWrapped)[0].'<', File::get(end($this->latestTextWrapped)[1]));
                 if (file_put_contents(end($this->latestTextWrapped)[1], $FileContent) > 0) {
-                    $this->emit('show-toast', 'The wrap is removed.', 'success');
+                    $this->dispatch('show-toast', message: 'The wrap is removed.', alertType: 'success');
                     $this->checkForSimilarStrings();
                     $this->getNonWrappedStrings();
                     array_pop($this->latestTextWrapped);
                 } else {
-                    $this->emit('show-toast', 'Error replacing the string.', 'error');
+                    $this->dispatch('show-toast', message: 'Error replacing the string.', alertType: 'error');
                 }
             } catch (Exception $e) {
-                $this->emit('show-toast', 'Severe error, check log.', 'error');
+                $this->dispatch('show-toast', message: 'Severe error, check log.', alertType: 'error');
             }
         } else {
-            $this->emit('show-toast', 'No text to unmerge.', 'warning');
+            $this->dispatch('show-toast', message: 'No text to unmerge.', alertType: 'warning');
         }
     }
 
@@ -167,7 +165,7 @@ class ConflictsDashboard extends Component
             $files = File::allFiles(resource_path());
         } catch (\Exception $e) {
             $this->addError('path', 'This path is not valid.');
-            $this->emit('show-toast', 'The resource path return an error.', 'error');
+            $this->dispatch('show-toast', message: 'The resource path return an error.', alertType: 'error');
 
             return;
         }

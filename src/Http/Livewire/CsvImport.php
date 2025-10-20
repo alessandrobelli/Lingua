@@ -47,7 +47,7 @@ class CsvImport extends Component
         $path = $this->csv->getRealPath();
         $data = array_map('str_getcsv', file($path));
         $this->csv_data = $data;
-        $this->emit('show-toast', count($data).' long', 'red');
+        $this->dispatch('show-toast', message: count($data).' long', alertType: 'red');
         $errorStrings = 0;
 
         for ($i = 1; $i < count($data); $i++) {
@@ -76,9 +76,9 @@ class CsvImport extends Component
         }
 
         if ($errorStrings > 0) {
-            $this->emit('show-toast', $errorStrings.' strings were not imported, check if your CSV file is formatted correctly', 'error');
+            $this->dispatch('show-toast', message: $errorStrings.' strings were not imported, check if your CSV file is formatted correctly', alertType: 'error');
         } else {
-            $this->emit('show-toast', 'Successfully imported CSV', 'success');
+            $this->dispatch('show-toast', message: 'Successfully imported CSV', alertType: 'success');
         }
     }
 
