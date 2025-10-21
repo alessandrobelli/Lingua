@@ -8,24 +8,28 @@ _:it: From Italian: Lingua means both Tongue and Language_
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/alessandrobelli/lingua.svg?style=flat-square)](https://packagist.org/packages/alessandrobelli/lingua)
 ![GitHub Tests Action Status](https://github.com/alessandrobelli/lingua/workflows/Tests/badge.svg)[![Total Downloads](https://img.shields.io/packagist/dt/alessandrobelli/lingua.svg?style=flat-square)](https://packagist.org/packages/alessandrobelli/lingua)
-[![Total Downloads](https://img.shields.io/packagist/dt/alessandrobelli/lingua.svg?style=flat-square)](https://packagist.org/packages/alessandrobelli/lingua)
 
 
 Lingua is a dashboard that allows you to create, manage and import your translations for your project.
 
-**This package is in pre-release with known issues. Please report them.**
+**Version 2.0 - Major Update**
+Now supports Laravel 11 and Livewire 3. For Laravel 9/10 support, please use version 1.x.
 
-```txt
-The new Release - 0.3 - bring a lot of changes, mainly in the interface. Screenshots here still outdated.
-```
+## Version Compatibility
+
+| Lingua Version | Laravel | Livewire | PHP   |
+|----------------|---------|----------|-------|
+| 2.x            | 11.x    | 3.x      | 8.3+  |
+| 1.x            | 9.x-10.x| 2.x      | 8.1+  |
 
 I would like to warmly thank [Spatie](https://spatie.be/) and Freek to have taught me how to develop packages.
 
 ## Requirements
 
-1. [Install AlpineJS](https://github.com/alpinejs/alpine) and include it in your JS file.
-2. [Install Livewire](https://laravel-livewire.com/docs/2.x/installation).
-3. Then you can install the package via composer.
+- **PHP** 8.3 or higher
+- **Laravel** 11.0 or higher
+- **Livewire** 3.0 or higher
+- **AlpineJS** (included with Livewire 3)
 
 ## Installation
 
@@ -41,6 +45,21 @@ You can publish and run the migrations with:
 php artisan vendor:publish --provider="alessandrobelli\Lingua\LinguaServiceProvider" --tag="migrations"
 php artisan migrate
 ```
+
+## Upgrading from 1.x to 2.x
+
+Lingua 2.x requires Laravel 11 and Livewire 3. Before upgrading:
+
+1. **Upgrade to Laravel 11** - Follow [Laravel's upgrade guide](https://laravel.com/docs/11.x/upgrade)
+2. **Upgrade to Livewire 3** - Follow [Livewire's upgrade guide](https://livewire.laravel.com/docs/upgrading)
+3. **Update Lingua** - Run `composer update alessandrobelli/lingua`
+4. **Clear caches** - Run `php artisan optimize:clear`
+
+### Breaking Changes
+- Minimum PHP version raised from 8.1 to 8.3
+- Laravel 11+ required
+- Livewire 3+ required
+- Event system migrated from `$emit()` to `dispatch()`
 
 ## Usage
 You need to add the routes to your web.php file.
