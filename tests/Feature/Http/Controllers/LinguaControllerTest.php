@@ -9,10 +9,11 @@ use alessandrobelli\Lingua\Tests\TestCase;
 use alessandrobelli\Lingua\Tests\User;
 use Config;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 
 class LinguaControllerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function lingua_dashboard_works()
     {
         $user = User::factory()->create();
@@ -27,7 +28,7 @@ class LinguaControllerTest extends TestCase
         Livewire::test(TranslationTable::class)->assertHasNoErrors();
     }
 
-    /** @test */
+    #[Test]
     public function lingua_dashboard_does_not_work()
     {
         $this->expectException(\Illuminate\Auth\AuthenticationException::class);
@@ -36,7 +37,7 @@ class LinguaControllerTest extends TestCase
             ->get('/lingua/dashboard');
     }
 
-    /** @test */
+    #[Test]
     public function test_lingua_routes_translator()
     {
         $this->withoutExceptionHandling();
@@ -55,7 +56,7 @@ class LinguaControllerTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
+    #[Test]
     public function test_lingua_routes_admin()
     {
         $this->withoutExceptionHandling();

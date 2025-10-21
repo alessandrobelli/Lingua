@@ -9,6 +9,7 @@ use alessandrobelli\Lingua\Tests\User;
 use alessandrobelli\Lingua\Translation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 
 class LinguaLivewireTest extends TestCase
 {
@@ -19,7 +20,7 @@ class LinguaLivewireTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    #[Test]
     public function can_update_locales()
     {
         $this->withoutExceptionHandling();

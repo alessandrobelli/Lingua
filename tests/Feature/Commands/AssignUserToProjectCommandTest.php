@@ -7,6 +7,7 @@ use alessandrobelli\Lingua\Tests\TestCase;
 use alessandrobelli\Lingua\Tests\User;
 use alessandrobelli\Lingua\Translation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class AssignUserToProjectCommandTest extends TestCase
 {
@@ -17,7 +18,7 @@ class AssignUserToProjectCommandTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    #[Test]
     public function user_factory_works()
     {
         $user = User::factory()->create();
@@ -27,7 +28,7 @@ class AssignUserToProjectCommandTest extends TestCase
         $this->assertEquals($translation->project, $user->linguaprojects);
     }
 
-    /** @test */
+    #[Test]
     public function assign_user_to_projects_command_works()
     {
         $user = User::factory()->create();
