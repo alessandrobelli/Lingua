@@ -71,37 +71,72 @@ Then you can go to /desiredslug to see the dashboard.
 
 ![Lingua_Dashboard](https://user-images.githubusercontent.com/3796324/96856448-3397cd80-145e-11eb-9aab-a842e1a13979.png)
 
-To use the translation files for Javascript files place this into your header:
-```Javascript
-    <script>
-        window.trans = [];
-        window.trans = <?php
-        if(File::exists(resource_path() . "/lang/" . App::getLocale() . '.json'))
-        {
-            $json_file = File::get(resource_path() . "/lang/" . App::getLocale() . '.json');
-            echo json_decode(json_encode($json_file, true));
-        }
-        else{
-            echo "[]";
-        }
-        ?>;
-    </script>
+## Using Translations in JavaScript
+
+Lingua generates JSON translation files that you can use in your frontend code. First, load the translations in your layout's `<head>` section:
+
+```html
+<script>
+    window.translations = @json(File::exists(resource_path('lang/' . App::getLocale() . '.json'))
+        ? json_decode(File::get(resource_path('lang/' . App::getLocale() . '.json')), true)
+        : []);
+</script>
 ```
 
-Then make a prototype function in Javascript to detect the `trans()` function inside your Javascript files, or use this, in case you use Vuejs and Lodash:
+Then choose the implementation that matches your frontend framework:
 
-```Javascript
-Vue.prototype.trans = (key) => {
-    if (_.isUndefined(window.trans[key])) {
-        return key;
-    } else {
-        if (window.trans[key] === "") return key;
-        return window.trans[key];
-    }
+### AlpineJS (Recommended for TALL stack)
+
+```html
+<script>
+    window.trans = (key) => window.translations[key] || key;
+</script>
+
+<!-- Usage in your Blade templates -->
+<div x-data>
+    <span x-text="trans('Welcome')"></span>
+    <p x-text="trans('user.greeting')"></p>
+</div>
+```
+
+### Vanilla JavaScript
+
+```javascript
+window.trans = function(key) {
+    return window.translations[key] || key;
 };
+
+// Usage
+document.getElementById('greeting').textContent = trans('Welcome');
 ```
 
-The language shown will be according to the locale of the browser, or you can use [this tutorial which worked for me](https://www.ryanoun.com/coding-notes/laravel/set-and-store-locale-in-laravel-5-6-using-middleware/).
+### Vue 3
+
+```javascript
+const app = createApp({});
+
+app.config.globalProperties.$trans = (key) => {
+    return window.translations[key] || key;
+};
+
+// Usage in components
+{{ $trans('Welcome') }}
+```
+
+### Vue 2
+
+```javascript
+Vue.prototype.$trans = function(key) {
+    return window.translations[key] || key;
+};
+
+// Usage in components
+{{ $trans('Welcome') }}
+```
+
+**Note:** Translations in Livewire components work automatically using Laravel's `__()` helper.
+
+The displayed language will be based on your application's locale. You can manage the locale using [Laravel's localization features](https://laravel.com/docs/11.x/localization).
 
 ## More 
 
